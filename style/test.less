@@ -1,0 +1,228 @@
+@full:100%;
+@half:50%;
+@url:"../img";
+
+.current(){
+  position: absolute;
+  visibility: hidden;
+  background-size: contain; /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.icons(){
+  list-style: none;
+  position: absolute;
+  background-size: contain; /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.page(){
+  width: @full;
+  position: absolute;
+  touch-action: none;
+}
+
+body{
+  height: @full;
+  width: @full;
+  margin: 0;
+  overflow:hidden;
+}
+
+.main{
+  .step1{
+    height: @full;
+    width: @full;
+    position:absolute;
+    display: block;
+    margin: 0;
+    &.none{
+      display: none;
+    }
+    .webgl{
+      height: @full;
+      width: @full;
+    }
+  }
+}
+
+.title{
+  .page();
+  top: 0;
+  height: 30%;
+  .message{
+    .current();
+    width: 25%;
+    height: 25%;
+    top:40%;
+    left: 37%;
+    background-image: url("@{url}/tittle2.png");
+    &.block{
+      visibility: visible;
+    }
+    &.step3{
+      background-image: url("@{url}/tittle.png");
+    }
+    &.step4{
+      background-image: url("@{url}/title4.png");
+    }
+  }
+}
+
+.content{
+  .page();
+  top: 20%;
+  height: 70%;
+  .message{
+    .current();
+    background-image: url("@{url}/info.png");
+    width: 80%;
+    height: 30%;
+    top: 75%;
+    left: 10%;
+    &.block{
+      visibility: visible;
+    }
+    &.step3{
+      background-image: url("@{url}/2info.png");
+    }
+    .value{
+      .current();
+      width: @half;
+      height: 30%;
+      left: 25%;
+      background-image: url("@{url}/299RMB.png");
+      &.medium{
+        background-image: url("@{url}/1260RMB .png");
+      }
+      &.block{
+        visibility: visible;
+      }
+    }
+    .button{
+      .current();
+      width: @half;
+      height: 30%;
+      top: 45%;
+      left: 25%;
+      background-image: url("@{url}/button.png");
+      &.block{
+        visibility: visible;
+      }
+    }
+    .iconsTop{
+      visibility: hidden;
+      width: 100%;
+      height: 25%;
+      .smallButton{
+        .icons();
+        width: @half;
+        height: 30%;
+        left: 0;
+        background-image: url("@{url}/S1.png");
+        &.active{
+          background-image: url("@{url}/S.png");
+        }
+        &.step5{
+          top: -50%;
+        }
+      }
+      .mediumButton{
+        .icons();
+        width: @half;
+        height: 30%;
+        left: 50%;
+        background-image: url("@{url}/M.png");
+        &.active{
+          background-image: url("@{url}/M1.png");
+        }
+        &.step5{
+          top: -50%;
+        }
+      }
+      &.active{
+        visibility: visible;
+      }
+    }
+    .iconsBottom{
+      visibility: hidden;
+      width: 100%;
+      height: 25%;
+      .weight{
+        .icons();
+        width: @half;
+        height: 20%;
+        left: 0;
+        background-image: url("@{url}/weight-s.png");
+        &.active{
+          background-image: url("@{url}/weight-l.png");
+        }
+      }
+      .material{
+        .icons();
+        width: @half;
+        height: 20%;
+        left: 55%;
+        background-image: url("@{url}/pvc.png");
+        &.active{
+          background-image: url("@{url}/stone.png");
+        }
+      }
+      &.active{
+        visibility: visible;
+      }
+    }
+  }
+  .imageNum{
+    .current();
+    visibility: visible;
+    width: @half;
+    height: 10%;
+    top: 75%;
+    left: 25%;
+    &.hide{
+      visibility: hidden;
+    }
+  }
+}
+
+.footer{
+  .page();
+  height: 10%;
+  top: 90%;
+  .rightButton{
+    .current();
+    visibility: visible;
+    width: 20%;
+    height: 50%;
+    top: 10%;
+    right: 6%;
+    background-image: url("@{url}/right.png");
+    &.leftButton{
+      background-image: url("@{url}/left.png");
+      left: 6%;
+    }
+  }
+  .icons{
+    display: inline-block;
+    position: absolute;
+    left: 22%;
+    top: -5%;
+    .icon{
+      list-style: none;
+      float: left;
+      width: 10px;
+      height: 10px;
+      margin: 7px;
+      border: 1px solid #000000;
+      border-radius: 50%;
+      &.active{
+        background-color: black;
+      }
+    }
+  }
+}
+
+

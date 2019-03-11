@@ -1,0 +1,251 @@
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+.main .step1 {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: block;
+  margin: 0;
+}
+.main .step1.none {
+  display: none;
+}
+.main .step1 .webgl {
+  height: 100%;
+  width: 100%;
+}
+.title {
+  width: 100%;
+  position: absolute;
+  touch-action: none;
+  top: 0;
+  height: 30%;
+}
+.title .message {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 25%;
+  height: 25%;
+  top: 40%;
+  left: 37%;
+  background-image: url("../img/tittle2.png");
+}
+.title .message.block {
+  visibility: visible;
+}
+.title .message.step3 {
+  background-image: url("../img/tittle.png");
+}
+.title .message.step4 {
+  background-image: url("../img/title4.png");
+}
+.content {
+  width: 100%;
+  position: absolute;
+  touch-action: none;
+  top: 20%;
+  height: 70%;
+}
+.content .message {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("../img/info.png");
+  width: 80%;
+  height: 30%;
+  top: 75%;
+  left: 10%;
+}
+.content .message.block {
+  visibility: visible;
+}
+.content .message.step3 {
+  background-image: url("../img/2info.png");
+}
+.content .message .value {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 30%;
+  left: 25%;
+  background-image: url("../img/299RMB.png");
+}
+.content .message .value.medium {
+  background-image: url("../img/1260RMB .png");
+}
+.content .message .value.block {
+  visibility: visible;
+}
+.content .message .button {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 30%;
+  top: 45%;
+  left: 25%;
+  background-image: url("../img/button.png");
+}
+.content .message .button.block {
+  visibility: visible;
+}
+.content .message .iconsTop {
+  visibility: hidden;
+  width: 100%;
+  height: 25%;
+}
+.content .message .iconsTop .smallButton {
+  list-style: none;
+  position: absolute;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 30%;
+  left: 0;
+  background-image: url("../img/S1.png");
+}
+.content .message .iconsTop .smallButton.active {
+  background-image: url("../img/S.png");
+}
+.content .message .iconsTop .smallButton.step5 {
+  top: -50%;
+}
+.content .message .iconsTop .mediumButton {
+  list-style: none;
+  position: absolute;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 30%;
+  left: 50%;
+  background-image: url("../img/M.png");
+}
+.content .message .iconsTop .mediumButton.active {
+  background-image: url("../img/M1.png");
+}
+.content .message .iconsTop .mediumButton.step5 {
+  top: -50%;
+}
+.content .message .iconsTop.active {
+  visibility: visible;
+}
+.content .message .iconsBottom {
+  visibility: hidden;
+  width: 100%;
+  height: 25%;
+}
+.content .message .iconsBottom .weight {
+  list-style: none;
+  position: absolute;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 20%;
+  left: 0;
+  background-image: url("../img/weight-s.png");
+}
+.content .message .iconsBottom .weight.active {
+  background-image: url("../img/weight-l.png");
+}
+.content .message .iconsBottom .material {
+  list-style: none;
+  position: absolute;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 20%;
+  left: 55%;
+  background-image: url("../img/pvc.png");
+}
+.content .message .iconsBottom .material.active {
+  background-image: url("../img/stone.png");
+}
+.content .message .iconsBottom.active {
+  visibility: visible;
+}
+.content .imageNum {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  visibility: visible;
+  width: 50%;
+  height: 10%;
+  top: 75%;
+  left: 25%;
+}
+.content .imageNum.hide {
+  visibility: hidden;
+}
+.footer {
+  width: 100%;
+  position: absolute;
+  touch-action: none;
+  height: 10%;
+  top: 90%;
+}
+.footer .rightButton {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
+  visibility: visible;
+  width: 20%;
+  height: 50%;
+  top: 10%;
+  right: 6%;
+  background-image: url("../img/right.png");
+}
+.footer .rightButton.leftButton {
+  background-image: url("../img/left.png");
+  left: 6%;
+}
+.footer .icons {
+  display: inline-block;
+  position: absolute;
+  left: 22%;
+  top: -5%;
+}
+.footer .icons .icon {
+  list-style: none;
+  float: left;
+  width: 10px;
+  height: 10px;
+  margin: 7px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+}
+.footer .icons .icon.active {
+  background-color: black;
+}
+/*# sourceMappingURL=test.css.map */

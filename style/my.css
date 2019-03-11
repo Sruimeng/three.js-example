@@ -1,0 +1,258 @@
+body{
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    /*         background-image: url("$12348270%"); */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    overflow:hidden;
+    position: absolute;
+    /*         background-color: #ffffff; */
+}
+
+#div_all {
+    width: 100%;
+    height: 100%;
+}
+
+.step1{
+    height: 100%;
+    width: 100%;
+    left: 50%;
+    position:absolute;
+    transform: translateX(-50%);
+    opacity:1;
+}
+
+#webgl{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.title{
+    width: 100%;
+    height: 30%;
+    top: 0;
+    position: absolute;
+
+}
+
+.titleStep2{
+     display: none;
+     position: absolute;
+     background-image: url("../img/tittle2.png");
+     background-size: contain; /*扩展至最大尺寸*/
+     background-position: center;
+     background-repeat: no-repeat;
+     width: 35%;
+     height: 35%;
+     top: 40%;
+     left: 50%;
+     transform: translateX(-50%);
+     opacity: 1;
+ }
+
+.titleStep3{
+    display: none;
+    position: absolute;
+    background-image: url("../img/tittle.png");
+    background-size: contain; /*扩展至最大尺寸*/
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 35%;
+    height: 35%;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+}
+
+.main{
+    top: 20%;
+    width: 100%;
+    height: 70%;
+    touch-action: none;
+    position: absolute;
+}
+
+.mainStep2Message{
+    display: none;
+    width: 80%;
+    height: 30%;
+    position: absolute;
+    background-image: url("../img/info.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+}
+
+.mainStep3Message{
+    display: none;
+    width: 80%;
+    height: 30%;
+    position: absolute;
+    background-image: url("../img/2info.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+}
+
+.imageNum{
+    width: 50%;
+    height: 30%;
+    position: absolute;
+    background-size: contain;
+    background-image: url("../img/3damo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%);
+    transition: all 0.5s;
+    display: none;
+}
+
+.footer{
+    top: 90%;
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    touch-action: none;
+}
+
+.rightButton{
+    background-image: url("../img/right.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 20%;
+    height: 50%;
+    top: 10%;
+    right: 6%;
+}
+
+.leftButton{
+    background-image: url("../img/left.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 20%;
+    top: 10%;
+    height: 50%;
+    left: 6%;
+}
+.leftButton:focus,.rightButton:focus{
+    outline: none;
+}
+
+.iconActive{
+    background-image: url("../img/golden2.png");
+    background-size: cover;
+}
+.iconElement{
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.iconElement ul{
+    padding-left: 0px;
+}
+.iconElement .icon li{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 7px;
+}
+.iconNormal{
+    background-image: url("../img/golden1.png");
+    background-size: cover;
+}
+
+.step4title{
+    width: 16%;
+    height: 6.625%;
+    position: absolute;
+    background-image: url("files/assets/13457361/1/size.png?t=edbacf8f537e59fdce17484f64f3cffe");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+.btnsize{
+    width: 10.87%;
+    height: 5.625%;
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 18%;
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+.weightmt{
+    width: 24%;
+    height: 3.125%;
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 11%;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.btnbuy{
+    width: 38%;
+    height: 6.375%;
+    position: absolute;
+    background-image: url("../img/button.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.5s;
+    display: none;
+}
+.money{
+    width: 37.44%;
+    height: 2.75%;
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    bottom: 24%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.btnnum{
+    width: 15%;
+    height: 10%;
+    position: absolute;
+    background-color:rgba(255,255,255,0);
+    transform: translate(-50%,-65%);
+}

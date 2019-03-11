@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="style/test.css">
+    <title>可米兔练习</title>
+</head>
+
+<body>
+<script src="js/three.js"></script>
+<script src="js/WebGL.js"></script>
+<script src="js/Tween.js"></script>
+<script src="js/stats.min.js"></script>
+
+<script src="js/PMREMGenerator.js"></script>
+<script src="js/PMREMCubeUVPacker.js"></script>
+
+<script src="js/TGALoader.js"></script>
+<script src="js/FBXLoader.js"></script>
+
+<script src="js/inflate.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+
+<script src="myJS/pageAnimation.js"></script>
+<script src="myJS/pickNumber.js"></script>
+<script src="myJS/pageAnimationUtil.js"></script>
+<script src="myJS/divClick.js"></script>
+<script src="myJS/initMesh.js"></script>
+<script src="myJS/initScene.js"></script>
+
+<div class="main">
+    <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔">
+    <div id="WebGLOutput" class="webgl"></div>
+    <div class="title">
+        <div class="message" id="title"></div>
+    </div>
+    <div class="content">
+        <div class="message" id="message">
+            <div class="value" id="value"></div>
+            <div class="button" id="button" onclick="buyButtonClick()"></div>
+            <ul class="iconsTop" id="iconsTop">
+                <li class="smallButton" onclick="smallButtonClick(tempStep)"></li>
+                <li class="mediumButton" onclick="mediumButtonClick(tempStep)"></li>
+            </ul>
+            <ul class="iconsBottom" id="iconsBottom">
+                <li class="weight"></li>
+                <li class="material"></li>
+            </ul>
+        </div>
+        <div class="imageNum" id="imageNum"></div>
+    </div>
+
+    <div class="footer">
+        <div class="rightButton" id="rightBtn" onclick="rightButtonClick()"></div>
+        <ul class="icons" id="icons">
+            <li class="icon active"></li>
+            <li class="icon"></li>
+            <li class="icon"></li>
+            <li class="icon"></li>
+            <li class="icon"></li>
+        </ul>
+        <div class="rightButton leftButton" id="leftBtn" onclick="leftButtonClick()"></div>
+    </div>
+</div>
+
+<script>
+    var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
+    var temp=Math.PI/360, rotationFlag = false,group=new Array();
+    var tempStep = 1;
+    var arr = new Array(3); //不同场景切换的数组
+    arr[0] = new Array();
+    arr[1] = new Array();
+    arr[2] = new Array();
+
+    var meshRotationTween;//循环动画
+
+    var mousePoint=new THREE.Vector2();
+    var tick = new Array(); //事件数组
+
+    //加载模型相关变量
+    var rgbmCubeRenderTarget;
+    var material = new THREE.MeshStandardMaterial();
+    var loader = new THREE.FBXLoader();
+    var textureLoader = new THREE.TextureLoader();
+
+    function init() {
+        //判断浏览器是否支持webgl
+        if (WEBGL.isWebGLAvailable() === false) {
+            document.body.appendChild(WEBGL.getWebGLErrorMessage());
+        }
+        window.addEventListener("mousedown", pickNumber);
+        window.addEventListener("touchstart ", pickNumber);
+        window.addEventListener("touchend", mouseEnter);
+        window.addEventListener("mousemove", mouseEnter);
+        initScene();
+        initRenderer();
+        initCamera();
+        initSupports();
+        initControls();
+        initCubeMap(initMesh);
+        startRender();//开始渲染
+
+        document.getElementById("WebGLOutput").appendChild(renderer.domElement);
+    }
+
+    function startRender() {
+        TWEEN.update();
+        for (i = 0, tickLength = tick.length; i < tickLength; i++) {
+            tick[i].call(this);
+        }
+        meshRotation();
+        //console.log(camera.position);
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(startRender);
+    }
+
+    window.onload = init; //当网页加载后执行init方法
+</script>
+</body>
+
+</html>
