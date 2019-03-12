@@ -1,21 +1,21 @@
 
-
 function mouseEnter() {
     setTimeout(
         function () {
             rotationFlag=true;
-        },2000
+        },4000
     )
 }
 function mouseOver() {
     rotationFlag=false;
 }
 function smallButtonClick(step) {
-    console.log("step:" + step);
     document.querySelectorAll("#iconsTop li").forEach(function (item) {
         item.classList.remove("active");
     });
     if (step === 4) {
+        textAnimation(switchPageUtil(arr[3],true),arr[3]);
+        switchPageUtil(arr[4],false);
         document.querySelectorAll("#iconsBottom li").forEach(function (item) {
             item.classList.remove("active");
         });
@@ -27,11 +27,12 @@ function smallButtonClick(step) {
 }
 
 function mediumButtonClick(step) {
-    console.log("step:" + step);
     document.querySelectorAll("#iconsTop li").forEach(function (item) {
         item.classList.add("active");
     });
     if (step === 4) {
+        textAnimation(switchPageUtil(arr[4],true),arr[4]);
+        switchPageUtil(arr[3],false);
         document.querySelectorAll("#iconsBottom li").forEach(function (item) {
             item.classList.add("active");
         });
@@ -113,6 +114,8 @@ function showDocumentUtil(id, flag, name) {
 function step1Change(flag) {
     mouseEnter();
     showDocumentUtil("#step1", true, "none");
+    switchPageUtil(arr[3],false);
+    switchPageUtil(arr[4],false);
     group=arr[0].concat(arr[2]);
     if (flag) {
         showDocumentUtil("#title", true, "block");
@@ -152,6 +155,7 @@ function step5Change(flag) {
         switchPageUtil(arr[0], true);
         tempStep = 1;
     } else {
+        textAnimation(switchPageUtil(arr[3],true),arr[3]);
         showDocumentUtil("#button", false, "block");
         showDocumentUtil("#title", true, "block");
         showDocumentUtil("#title", true, "step4");
@@ -189,6 +193,13 @@ function step3Change(flag) {
     switchPageUtil(arr[1], false);
     showDocumentUtil("#imageNum", true, "hide");
     if (flag) {
+        document.querySelectorAll("#iconsTop li").forEach(function (item) {
+            item.classList.remove("active");
+        });
+        document.querySelectorAll("#iconsBottom li").forEach(function (item) {
+            item.classList.remove("active");
+        });
+        textAnimation(switchPageUtil(arr[3],true),arr[3]);
         showDocumentUtil("#title", true, "step4");
         showDocumentUtil("#message", false, "block");
         showDocumentUtil("#iconsBottom", true, "active");
@@ -208,6 +219,8 @@ function step3Change(flag) {
 
 function step4Change(flag) {
     showDocumentUtil("#iconsBottom", false, "active");
+    switchPageUtil(arr[4],false);
+    switchPageUtil(arr[3],false);
     if (flag) {
         showDocumentUtil("#value", true, "block");
         showDocumentUtil("#button", true, "block");

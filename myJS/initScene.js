@@ -5,15 +5,13 @@ function initControls() {
     controls.enableZoom = true; //开启旋转
     controls.zoomSpeed = 0.5;  //旋转速度
     controls.enableDamping = true;//开启阻尼效果
-    controls.dampingFactor = 0.15;
+    controls.dampingFactor = 0.1;
     controls.autoRotate = false;//关闭自动旋转
     controls.enablePan = true;//右键拖拽
     controls.minPolarAngle = Math.PI / 18; //设置最小视角1
-    controls.maxPolarAngle = Math.PI / 18 * 7;   //设置最大视角
+    controls.maxPolarAngle = Math.PI / 2;   //设置最大视角
     controls.maxDistance = 200;//最大最小缩放距离
     controls.minDistance = 20;
-    window.addEventListener("mousedown", pickNumber);
-    window.addEventListener("mousemove", mouseEnter);
 }
 
 function initSupports() {

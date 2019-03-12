@@ -36,7 +36,14 @@ function cycleUtil(positionY) {
 }
 //切换场景工具类
 function switchPageUtil(arr,flag) {
-    for(i=0,arrLength=arr.length;i<arrLength;i++){
-        arr[i].children[0].visible=flag;
+    if(arr.length>10)
+    {
+        for(i=0,arrLength=arr.length;i<arrLength;i++){
+            arr[i].visible=flag;
+        }
+    }else {
+        for(i=0,arrLength=arr.length;i<arrLength;i++){
+            arr[i].children[0].visible=flag;
+        }
     }
 }

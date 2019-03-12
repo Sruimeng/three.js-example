@@ -7,7 +7,6 @@ function initMesh() {
         material.metalness = 0.7; // attenuates metalnessMap
         material.normalMap = textureLoader.load("fbx/WAT_tou_n.png");
         material.aoMap = textureLoader.load("fbx/WAT_di__AO.jpg");
-        console.log(rgbmCubeRenderTarget.texture);
         material.envMap = rgbmCubeRenderTarget.texture;
         material.needsUpdate = true;
         mesh.children[0].material = material;
@@ -84,7 +83,6 @@ function initMesh() {
         mesh.children[0].name = "31";
         var mesh1 = mesh.clone();
         mesh1.children[0].material.color = new THREE.Color(0x3e8c85)
-        console.log(mesh1);
         mesh1.position.set(-5, 18, -5);
         mesh1.scale.set(30, 30, 30);
         mesh1.children[0].name = "32";
@@ -129,20 +127,60 @@ function initMesh() {
         arr[1].push(mesh);
         scene.add(mesh);
     });
-    new THREE.FontLoader().load("font/gentilis_bold.typeface.json",function (font) {
-        var geometry = new THREE.TextGeometry( '6cm', {
-            font: font,
-            size: 1,
-            height: 0.05,
-        } );
-        var meshMaterial = new THREE.MeshPhongMaterial( { color: 0xfeb19d, emissive: 0xfeb19d, side: THREE.DoubleSide,  } );
-        var textMesh=new THREE.Mesh( geometry, meshMaterial );
-        textMesh.position.set(5,0,0);
-        //textMesh.scale.set(100,100,100);
-        console.log(textMesh);
-        scene.add(textMesh);
-        });
 
+    textMeshUtil("6cm", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, -1), arr[3], "left6cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, -3), arr[3], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0.2, -3.2), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, 1), arr[3], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0.2, 3), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+
+    textMeshUtil("6cm", new THREE.Euler(0,0,0), new THREE.Vector3(-1, -1.5, 0), arr[3], "bottom6cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,0,0), new THREE.Vector3(-3, -1.5, 0), arr[3], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,0), new THREE.Vector3(-3.2, -1.3, 0), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,0,0), new THREE.Vector3(1.5, -1.5, 0), arr[3], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,0), new THREE.Vector3(3.5, -1.3, 0), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+
+    textMeshUtil("22cm", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, 8, 0), arr[3], "right22cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, 11, 0), arr[3], "20heng",new THREE.Vector3(20,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(4.8, 19.5, 0), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, -1, 0), arr[3], "20heng",new THREE.Vector3(20,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(4.8, -0.5, 0), arr[3], "dian",new THREE.Vector3(1,1,1),2);
+
+    textMeshUtil("11cm", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, -1.5), arr[4], "left6cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, -3.5), arr[4], "4heng",new THREE.Vector3(4,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0.2, -3.7), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0, 1.5), arr[4], "4heng",new THREE.Vector3(4,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,-Math.PI/2,0), new THREE.Vector3(-4, 0.2, 3), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+
+    textMeshUtil("10cm", new THREE.Euler(0,0,0), new THREE.Vector3(-1.5, -1.5, 0), arr[4], "bottom6cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,0,0), new THREE.Vector3(-4, -1.5, 0), arr[4], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,0), new THREE.Vector3(-4, -1.3, 0), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,0,0), new THREE.Vector3(1.5, -1.5, 0), arr[4], "5heng",new THREE.Vector3(5,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,0), new THREE.Vector3(3.5, -1.3, 0), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+
+    textMeshUtil("35cm", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, 8, 0), arr[4], "right22cm",new THREE.Vector3(1,1,1),1);
+    textMeshUtil("-", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, 11, 0), arr[4], "20heng",new THREE.Vector3(20,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(4.8, 19.5, 0), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+    textMeshUtil("-", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(5, -1, 0), arr[4], "20heng",new THREE.Vector3(20,1,1),1);
+    textMeshUtil(".", new THREE.Euler(0,0,Math.PI/2), new THREE.Vector3(4.8, -0.5, 0), arr[4], "dian",new THREE.Vector3(1,1,1),2);
+}
+
+function textMeshUtil(text, rotation, position, array, name,scale,size) {
+    new THREE.FontLoader().load("font/gentilis_bold.typeface.json", function (font) {
+        var geometry = new THREE.TextGeometry(text, {
+            font: font,
+            size: size,
+            height: 0.05,
+        });
+        var meshMaterial = new THREE.MeshPhongMaterial({color: 0xfeb19d, emissive: 0xfeb19d, side: THREE.DoubleSide,});
+        var textMesh = new THREE.Mesh(geometry, meshMaterial);
+        textMesh.name = name;
+        textMesh.rotation.copy(rotation);
+        textMesh.scale.copy(scale);
+        textMesh.position.copy(position);
+        array.push(textMesh);
+        scene.add(textMesh);
+    });
 }
 
 function initCubeMap(callback) {

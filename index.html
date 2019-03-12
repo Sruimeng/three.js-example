@@ -68,16 +68,16 @@
 
 <script>
     var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
-    var temp=Math.PI/360, rotationFlag = false,group=new Array();
+    var temp = Math.PI / 360, rotationFlag = false, group = new Array();
     var tempStep = 1;
-    var arr = new Array(3); //不同场景切换的数组
+    var arr = new Array(5); //不同场景切换的数组
     arr[0] = new Array();
     arr[1] = new Array();
     arr[2] = new Array();
+    arr[3] = new Array();
+    arr[4] = new Array();
 
-    var meshRotationTween;//循环动画
-
-    var mousePoint=new THREE.Vector2();
+    var mousePoint = new THREE.Vector2();
     var tick = new Array(); //事件数组
 
     //加载模型相关变量
@@ -91,10 +91,11 @@
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
         }
-        window.addEventListener("mousedown", pickNumber);
+        window.addEventListener("mousedown", pickNumber,mouseOver);
         window.addEventListener("touchstart ", pickNumber);
         window.addEventListener("touchend", mouseEnter);
         window.addEventListener("mousemove", mouseEnter);
+        window.addEventListener("mouseup", mouseOver);
         initScene();
         initRenderer();
         initCamera();
