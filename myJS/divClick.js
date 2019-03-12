@@ -1,21 +1,22 @@
-
 function mouseEnter() {
     setTimeout(
         function () {
-            rotationFlag=true;
-        },4000
+            rotationFlag = true;
+        }, 4000
     )
 }
+
 function mouseOver() {
-    rotationFlag=false;
+    rotationFlag = false;
 }
+
 function smallButtonClick(step) {
     document.querySelectorAll("#iconsTop li").forEach(function (item) {
         item.classList.remove("active");
     });
     if (step === 4) {
-        textAnimation(switchPageUtil(arr[3],true),arr[3]);
-        switchPageUtil(arr[4],false);
+        textAnimation(switchPageUtil(arr[3], true), arr[3]);
+        switchPageUtil(arr[4], false);
         document.querySelectorAll("#iconsBottom li").forEach(function (item) {
             item.classList.remove("active");
         });
@@ -31,8 +32,8 @@ function mediumButtonClick(step) {
         item.classList.add("active");
     });
     if (step === 4) {
-        textAnimation(switchPageUtil(arr[4],true),arr[4]);
-        switchPageUtil(arr[3],false);
+        textAnimation(switchPageUtil(arr[4], true), arr[4]);
+        switchPageUtil(arr[3], false);
         document.querySelectorAll("#iconsBottom li").forEach(function (item) {
             item.classList.add("active");
         });
@@ -43,8 +44,19 @@ function mediumButtonClick(step) {
 
 }
 
+function buttonPage() {
+    for (i = 0, arrLength = arr[2].length; i < arrLength; i++) {
+        if(arr[2][i].name===""){
+            arr[2][i].children[0].rotation.set(Math.PI/2,0,0);
+        }else {
+            arr[2][i].children[0].rotation.set(0,0,0);
+        }
+    }
+}
+
 //左边按钮点击事件
 function leftButtonClick() {
+    buttonPage();
     document.getElementById("icons").children[tempStep - 1].classList.remove("active");
     if (tempStep === 1) {
         document.getElementById("icons").children[4].classList.add("active");
@@ -71,6 +83,7 @@ function leftButtonClick() {
 }
 
 function rightButtonClick() {
+    buttonPage();
     document.getElementById("icons").children[tempStep - 1].classList.remove("active");
     if (tempStep === 5) {
         document.getElementById("icons").children[0].classList.add("active");
@@ -114,9 +127,9 @@ function showDocumentUtil(id, flag, name) {
 function step1Change(flag) {
     mouseEnter();
     showDocumentUtil("#step1", true, "none");
-    switchPageUtil(arr[3],false);
-    switchPageUtil(arr[4],false);
-    group=arr[0].concat(arr[2]);
+    switchPageUtil(arr[3], false);
+    switchPageUtil(arr[4], false);
+    group = arr[0].concat(arr[2]);
     if (flag) {
         showDocumentUtil("#title", true, "block");
         showDocumentUtil("#message", true, "block");
@@ -155,7 +168,7 @@ function step5Change(flag) {
         switchPageUtil(arr[0], true);
         tempStep = 1;
     } else {
-        textAnimation(switchPageUtil(arr[3],true),arr[3]);
+        textAnimation(switchPageUtil(arr[3], true), arr[3]);
         showDocumentUtil("#button", false, "block");
         showDocumentUtil("#title", true, "block");
         showDocumentUtil("#title", true, "step4");
@@ -199,7 +212,7 @@ function step3Change(flag) {
         document.querySelectorAll("#iconsBottom li").forEach(function (item) {
             item.classList.remove("active");
         });
-        textAnimation(switchPageUtil(arr[3],true),arr[3]);
+        textAnimation(switchPageUtil(arr[3], true), arr[3]);
         showDocumentUtil("#title", true, "step4");
         showDocumentUtil("#message", false, "block");
         showDocumentUtil("#iconsBottom", true, "active");
@@ -219,8 +232,8 @@ function step3Change(flag) {
 
 function step4Change(flag) {
     showDocumentUtil("#iconsBottom", false, "active");
-    switchPageUtil(arr[4],false);
-    switchPageUtil(arr[3],false);
+    switchPageUtil(arr[4], false);
+    switchPageUtil(arr[3], false);
     if (flag) {
         showDocumentUtil("#value", true, "block");
         showDocumentUtil("#button", true, "block");

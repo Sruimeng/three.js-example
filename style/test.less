@@ -24,7 +24,7 @@
   touch-action: none;
 }
 
-body{
+html,body{
   height: @full;
   width: @full;
   margin: 0;
@@ -33,10 +33,10 @@ body{
 
 .main{
   .step1{
+    .current();
     height: @full;
     width: @full;
-    position:absolute;
-    display: block;
+    visibility: visible;
     margin: 0;
     &.none{
       display: none;
@@ -208,8 +208,9 @@ body{
   .icons{
     display: inline-block;
     position: absolute;
-    left: 22%;
+    left: 45%;
     top: -5%;
+    transform: translateX(-50%);
     .icon{
       list-style: none;
       float: left;

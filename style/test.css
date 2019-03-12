@@ -1,3 +1,4 @@
+html,
 body {
   height: 100%;
   width: 100%;
@@ -5,10 +6,15 @@ body {
   overflow: hidden;
 }
 .main .step1 {
+  position: absolute;
+  visibility: hidden;
+  background-size: contain;
+  /*扩展至最大尺寸*/
+  background-position: center;
+  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
-  position: absolute;
-  display: block;
+  visibility: visible;
   margin: 0;
 }
 .main .step1.none {
@@ -233,8 +239,9 @@ body {
 .footer .icons {
   display: inline-block;
   position: absolute;
-  left: 22%;
+  left: 45%;
   top: -5%;
+  transform: translateX(-50%);
 }
 .footer .icons .icon {
   list-style: none;

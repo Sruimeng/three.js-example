@@ -82,7 +82,7 @@ function initMesh() {
         mesh.position.set(5, 5, 5);
         mesh.children[0].name = "31";
         var mesh1 = mesh.clone();
-        mesh1.children[0].material.color = new THREE.Color(0x3e8c85)
+        mesh1.children[0].material.color = new THREE.Color(0x3e8c85);
         mesh1.position.set(-5, 18, -5);
         mesh1.scale.set(30, 30, 30);
         mesh1.children[0].name = "32";
