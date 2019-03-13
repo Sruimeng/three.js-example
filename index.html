@@ -68,6 +68,7 @@
 </div>
 
 <script>
+
     var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
     var temp = Math.PI / 360, rotationFlag = false, group = new Array(), mouseFlag = false;
     var tempStep = 1;
@@ -95,7 +96,7 @@
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
         }
-
+        console.log(this);
         window.addEventListener("mousedown", pickNumber);
         initScene();
         initRenderer();
