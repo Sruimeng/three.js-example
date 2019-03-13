@@ -1,15 +1,3 @@
-function mouseEnter() {
-    setTimeout(
-        function () {
-            rotationFlag = true;
-        }, 4000
-    )
-}
-
-function mouseOver() {
-    rotationFlag = false;
-}
-
 function smallButtonClick(step) {
     document.querySelectorAll("#iconsTop li").forEach(function (item) {
         item.classList.remove("active");
@@ -24,7 +12,6 @@ function smallButtonClick(step) {
     } else {
         document.querySelector("#value").classList.remove("medium");
     }
-
 }
 
 function mediumButtonClick(step) {
@@ -125,7 +112,11 @@ function showDocumentUtil(id, flag, name) {
 
 //第一页变化方法
 function step1Change(flag) {
-    mouseEnter();
+    setTimeout(
+        function () {
+            rotationFlag = true;
+        }, 4000
+    );
     showDocumentUtil("#step1", true, "none");
     switchPageUtil(arr[3], false);
     switchPageUtil(arr[4], false);

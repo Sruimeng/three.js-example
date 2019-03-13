@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="style/test.css">
     <title>可米兔练习</title>
@@ -68,14 +69,17 @@
 
 <script>
     var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
-    var temp = Math.PI / 360, rotationFlag = false, group = new Array();
+    var temp = Math.PI / 360, rotationFlag = false, group = new Array(), mouseFlag = false;
     var tempStep = 1;
-    var arr = new Array(5); //不同场景切换的数组
+    var arr = new Array(6); //不同场景切换的数组
     arr[0] = new Array();
     arr[1] = new Array();
     arr[2] = new Array();
     arr[3] = new Array();
     arr[4] = new Array();
+    arr[5] = new Array();
+
+    var xx = new THREE.Vector2(), tempx = new THREE.Vector2();//旋转动画变量
 
     var mousePoint = new THREE.Vector2();
     var tick = new Array(); //事件数组
@@ -91,11 +95,8 @@
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
         }
-        window.addEventListener("mousedown", pickNumber,mouseOver);
-        window.addEventListener("touchstart ", pickNumber);
-        window.addEventListener("touchend", mouseEnter);
-        window.addEventListener("mousemove", mouseEnter);
-        window.addEventListener("mouseup", mouseOver);
+
+        window.addEventListener("mousedown", pickNumber);
         initScene();
         initRenderer();
         initCamera();

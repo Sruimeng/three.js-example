@@ -27,7 +27,6 @@ body {
 .title {
   width: 100%;
   position: absolute;
-  touch-action: none;
   top: 0;
   height: 30%;
 }
@@ -56,7 +55,6 @@ body {
 .content {
   width: 100%;
   position: absolute;
-  touch-action: none;
   top: 20%;
   height: 70%;
 }
@@ -214,7 +212,6 @@ body {
 .footer {
   width: 100%;
   position: absolute;
-  touch-action: none;
   height: 10%;
   top: 90%;
 }

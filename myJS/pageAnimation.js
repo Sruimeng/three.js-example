@@ -1,4 +1,3 @@
-
 function meshRotation() {
     if (group.length>0&&rotationFlag)
     {
@@ -23,6 +22,10 @@ function step3Animation() {
         arr[1][i].children[0].position.y+=cycleUtil(arr[1][i].children[0].position.y);
         arr[1][i].children[0].rotation.copy(camera.rotation);
     }
+    for(i=0,arr1Length=arr[5].length;i<arr1Length;i++)
+    {
+        arr[5][i].rotation.copy(camera.rotation);
+    }
 }
 
 function cameraAnimation(startPosition,endPosition,time,func) {
@@ -32,20 +35,9 @@ function cameraAnimation(startPosition,endPosition,time,func) {
 function textAnimation(callback,arr) {
     var tween=new TWEEN.Tween(new THREE.Vector3()).to(arr[0].scale,500).easing(TWEEN.Easing.Linear.None).start();
     tween.onUpdate(function (num) {
-        textScale(arr[1],num);
-        textScale(arr[2],num);
-        textScale(arr[3],num);
-        textScale(arr[4],num);
-        textScale(arr[5],num);
-        textScale(arr[6],num);
-        textScale(arr[7],num);
-        textScale(arr[8],num);
-        textScale(arr[9],num);
-        textScale(arr[10],num);
-        textScale(arr[11],num);
-        textScale(arr[12],num);
-        textScale(arr[13],num);
-        textScale(arr[14],num);
+        for (var i = 0 ; i< arr.length;i++){
+            textScale(arr[i],num);
+        }
     });
     callback;
 }

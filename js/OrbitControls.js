@@ -682,7 +682,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 	//
 
 	function onMouseDown( event ) {
-
 		if ( scope.enabled === false ) return;
 
 		// Prevent the browser from scrolling.
@@ -752,7 +751,6 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseMove( event ) {
-
 		if ( scope.enabled === false ) return;
 
 		event.preventDefault();
@@ -826,7 +824,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onTouchStart( event ) {
-
+		xx.x =event.changedTouches[0].clientX;
+		xx.y = event.changedTouches[0].clientY ;
+		mouseFlag=true;
 		if ( scope.enabled === false ) return;
 
 		event.preventDefault();
@@ -868,12 +868,24 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onTouchMove( event ) {
+		if (mouseFlag&&event!==undefined){
+			tempx.x =event.changedTouches[0].clientX;
+			tempx.y = event.changedTouches[0].clientY ;
+			if(Math.abs(tempx.x-xx.x)>0||Math.abs(tempx.y-xx.y)>0)
+			{
+				rotationFlag=false
+			}
+		}
 
+		setTimeout(
+			function () {
+				rotationFlag = true;
+			}, 4000
+		);
 		if ( scope.enabled === false ) return;
 
 		event.preventDefault();
 		event.stopPropagation();
-
 		switch ( event.touches.length ) {
 
 			case 1: // one-fingered touch: rotate
@@ -903,7 +915,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onTouchEnd( event ) {
-
+		mouseFlag=false;
 		if ( scope.enabled === false ) return;
 
 		handleTouchEnd( event );
