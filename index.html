@@ -68,7 +68,6 @@
 </div>
 
 <script>
-
     var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
     var temp = Math.PI / 360, rotationFlag = false, group = new Array(), mouseFlag = false;
     var tempStep = 1;
@@ -92,17 +91,15 @@
     var textureLoader = new THREE.TextureLoader();
 
     function init() {
+    console.log(typeof THREE);
+    console.log(THREE);
+    console.log(Project);
+    console.log(Project.prototype.createScene());
         //判断浏览器是否支持webgl
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
         }
-        console.log(this);
         window.addEventListener("mousedown", pickNumber);
-        initScene();
-        initRenderer();
-        initCamera();
-        initSupports();
-        initControls();
         initCubeMap(initMesh);
         startRender();//开始渲染
 
