@@ -91,10 +91,7 @@
     var textureLoader = new THREE.TextureLoader();
 
     function init() {
-    console.log(typeof THREE);
-    console.log(THREE);
-    console.log(Project);
-    console.log(Project.prototype.createScene());
+    console.log(Project.prototype);
         //判断浏览器是否支持webgl
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
