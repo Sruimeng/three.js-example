@@ -25,12 +25,13 @@ THREE.FBXLoader = ( function () {
 	var connections;
 	var sceneGraph;
 
-	function FBXLoader( manager ) {
-
-		this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-
+	class FBXLoader {
+		constructor(manager) {
+			console.log(manager);
+			
+			this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
+		}
 	}
-
 	FBXLoader.prototype = {
 
 		constructor: FBXLoader,
@@ -4128,3 +4129,4 @@ THREE.FBXLoader = ( function () {
 	return FBXLoader;
 
 } )();
+console.log(THREE.FBXLoader);

@@ -1,7 +1,7 @@
 function initMesh() {
     loader.load("fbx/WAT_tuzi.FBX", function (mesh) {
         material = new THREE.MeshStandardMaterial(); //重置纹理
-        material.map = textureLoader.load("fbx/WAT_tou_d.png");
+        material.map = textureLoader.load("fbx/ WAT_tou_d.png");
         material.color = new THREE.Color(0xFDDFC5);
         material.roughness = 0.5; // attenuates roughnessMap
         material.metalness = 0.7; // attenuates metalnessMap

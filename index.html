@@ -32,6 +32,9 @@
 <script src="myJS/initMesh.js"></script>
 <script src="myJS/initScene.js"></script>
 
+<script src="src/js/common.js"></script>
+<script src="src/js/util/meshUtil.js"></script>
+
 <div class="main">
     <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔">
     <div id="WebGLOutput" class="webgl"></div>
@@ -90,8 +93,12 @@
     var loader = new THREE.FBXLoader();
     var textureLoader = new THREE.TextureLoader();
 
+    /**
+     *
+     */
     function init() {
-    console.log(Project.prototype);
+        console.log(projectUtil);
+        
         //判断浏览器是否支持webgl
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
