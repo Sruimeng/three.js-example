@@ -6,19 +6,28 @@ projectUtil.meshUtil = (function () {
             if (typeof meshParams !== undefined) {
                 this._scene = meshParams.scene;
                 this._array = meshParams.arr;
+                this.__rgbmCubeRenderTarget = mesh.rgbmCubeRenderTarget
+                this._textFont = meshParams.font;
+                this._text = meshParams.text;
+                this._rotation = meshParams.rotation;
+                this._positon = meshParams.position;
+                this._scale = meshParams.scale;
+                this._textSize = meshParams.size;
+                this._name = meshParams.name;
+                this._color = meshParams.color;
+                this._fbxLoader = meshParams.fbxLoader;
+                this._fbxUrl = meshParams.fbxUrl;
+                this._fbxTextureLoader = meshParams.fbxTextureLoader;
+                this._fbxTextureMapUrl = meshParams.textureMapUrl;
+                this._fbxTextureAoMapUrl = meshParams.textureAoMapUrl;
+                this._fbxTextureNormalMapUrl = meshParams.textureNormalMapUrl;
+                this._fbxTexturealphaMapUrl = meshParams.texturealphaMapUrl;
+                this._transparent = meshParams.transparent;
+                this._fbxNumberBoxArray = meshParams.boxArray;
             }
             return this;
         },
-        textMeshUtil: function (textParams) {
-            if (typeof textParams !== undefined) {
-                this._textFont = textParams.font;
-                this._text = textParams.text;
-                this._textRotation = textParams.rotation;
-                this._textPositon = textParams.position;
-                this._textScale = textParams.scale;
-                this._textSize = textParams.size;
-                this._textName = textParams.name;
-            }
+        textMeshUtil: function () {
             var geometry = new THREE.TextGeometry(text, {
                 font: this._textFont,
                 size: this._textSize,
@@ -29,10 +38,10 @@ projectUtil.meshUtil = (function () {
                 side: THREE.DoubleSide,
             });
             var textMesh = new THREE.Mesh(geometry, meshMaterial);
-            textMesh.name = this._textName;
-            textMesh.rotation.copy(this._textRotation);
-            textMesh.scale.copy(this._textScale);
-            textMesh.position.copy(this._textPositon);
+            textMesh.name = this.name;
+            textMesh.rotation.copy(this._rotation);
+            textMesh.scale.copy(this._scale);
+            textMesh.position.copy(this._positon);
             this._array.push(textMesh);
             this._scene.add(textMesh);
         },
@@ -49,81 +58,85 @@ projectUtil.meshUtil = (function () {
             });
             material.envMap = rgbmCubeRenderTarget.texture;
             var boxMesh = new THREE.Mesh(geo, material);
-            boxMesh.position.copy(this._mesh.position);
-            boxMesh.rotation.copy(this._mesh.rotation);
-            boxMesh.name = this._mesh.children[0].name;
+            boxMesh.position.copy(this._position);
+            boxMesh.rotation.copy(this._rotation);
+            boxMesh.name = this.name;
             this._boxArray.push(boxMesh);
             this._scene.add(boxMesh);
+            console.log(boxMesh);
         },
-        fbxMeshUtil: function (fbxParams) {
-            if (typeof fbxParams !== undefined) {
-                this._fbxLoader = fbxParams.fbxLoader;
-                this._fbxUrl = fbxParams.fbxUrl;
-                this._fbxTextureLoader = fbxParams.fbxTextureLoader;
-                this._fbxTextureMapUrl = fbxParams.textureMapUrl;
-                this._fbxTextureAoMapUrl = fbxParams.textureAoMapUrl;
-                this._fbxTextureNormalMapUrl = fbxParams.textureNormalMapUrl;
-                this._fbxTexturealphaMapUrl = fbxParams.texturealphaMapUrl;
-                this._fbxScale = fbxParams.scale;
-                this._transparent = fbxParams.transparent;
-            }
+        fbxMeshUtil: function () {
             this._fbxLoader.load(this._fbxUrl, function (mesh) {
                 var material = new THREE.MeshStandardMaterial({
                     transparent: this._transparent,
-                    alphaMap:(this._fbxTexturealphaMapUrl!=="")?this._fbxTextureLoader.load(this.texturealphaMapUrl):null,
-                    map:(this._fbxTextureMapUrl!=="")?this._fbxTextureLoader.load(this._fbxTextureMapUrl):null,
-                    normalMap:(this._fbxTextureNormalMapUrl!=="")?this._fbxTextureLoader.load(this._fbxTextureNormalMapUrl):null,
-                    
-                    envMap:this._rgbmCubeRenderTarget.texture,
-                    needsUpdate:true,
+                    roughness: 0.5,
+                    metalness: 0.7,
+                    color: (this._color !== "") ? this._color : undefined,
+                    alphaMap: (this._fbxTexturealphaMapUrl !== "") ? this._fbxTextureLoader.load(this.texturealphaMapUrl) : null,
+                    map: (this._fbxTextureMapUrl !== "") ? this._fbxTextureLoader.load(this._fbxTextureMapUrl) : null,
+                    normalMap: (this._fbxTextureNormalMapUrl !== "") ? this._fbxTextureLoader.load(this._fbxTextureNormalMapUrl) : null,
+                    aoMap: (this._fbxTextureAoMapUrl !== "") ? this._fbxTextureLoader.load(this._fbxTextureAoMapUrl) : null,
+                    envMap: this._rgbmCubeRenderTarget.texture,
+                    needsUpdate: true,
                 }); //重置纹理
+                material.normalMap.wrapS = THREE.RepeatWrapping;
+                material.map.wrapS = THREE.RepeatWrapping;
                 mesh.children[0].material = material;
-                mesh.scale.copy(this._fbxScale);
+                mesh.scale.copy(this._scale);
                 this._array.push(mesh); //添加到场景数组中
                 this._scene.add(mesh);
             });
         },
-        fbxSceneMeshUtil: function (fbxSceneMeshParams) {
-            if (typeof fbxSceneMeshParams !== undefined) {
-                this._fbxLoader = fbxSceneMeshParams.fbxLoader;
-                this._fbxUrl = fbxSceneMeshParams.fbxUrl;
-                this._fbxTextureLoader = fbxSceneMeshParams.fbxTextureLoader;
-                this._fbxTextureMapUrl = fbxSceneMeshParams.textureMapUrl;
-                this._fbxTextureAoMapUrl = fbxSceneMeshParams.textureAoMapUrl;
-                this._fbxTextureNormalMapUrl = fbxSceneMeshParams.textureNormalMapUrl;
-                this._fbxScale = fbxSceneMeshParams.scale;
-                this._transparent = fbxSceneMeshParams.transparent;
-            }
+        fbxSceneMeshUtil: function () {
+            this._fbxSceneLoader.load(this._fbxSceneUrl, function (mesh) {
+                var material = new THREE.MeshStandardMaterial();
+                material.map = mesh.children[0].material.map;
+                material.aoMap = this._fbxSceneLoader.load(this._fbxTextureAoMapUrl);
+                material.envMap = this._rgbmCubeRenderTarget.texture;
+                material.needsUpdate = true;
+                mesh.children[0].material = material;
+                mesh.scale.copy(this.scale);
+                this._array.push(mesh); //添加到场景数组中
+                this._scene.add(mesh);
+            });
         },
-        fbxNumberMeshUtil: function (fbxNumberParams) {
-            if (typeof fbxNumberParams !== undefined) {
-                this._fbxNumberLoader = fbxNumberParams.fbxLoader;
-                this._fbxNumberUrl = fbxNumberParams.fbxUrl;
-                this._fbxNumberTextureLoader = fbxNumberParams.fbxTextureLoader;
-                this._fbxNumberTextureUrl = fbxNumberParams.textureUrl;
-                this._fbxNumberScale = fbxNumberParams.scale;
-                this._fbxNumberRotation = fbxNumberParams.rotation;
-                this._fbxNumberPosition = fbxNumberParams.position;
-                this._fbxNumberColor = fbxNumberParams.color;
-                this._fbxNumberName = fbxNumberParams.name;
-                this._fbxNumberBoxArray = fbxNumberParams.boxArray;
-            }
+        fbxNumberMeshUtil: function () {
             this._fbxNumberLoader.load(this._fbxNumberUrl, function (mesh) {
                 var material = new THREE.MeshStandardMaterial({
                     transparent: true
                 }); //重置纹理
-                material.alphaMap = this._fbxNumberTextureLoader.load(this._fbxNumberTextureUrl);
+                material.alphaMap = this._fbxTextureLoader.load(this._fbxTexturealphaMapUrl);
                 material.envMap = this._rgbmCubeRenderTarget.texture;
                 material.needsUpdate = true;
                 mesh.children[0].material = material;
-                mesh.scale.copy(this._fbxScale);
-                mesh.position.copy(this._fbxNumberPosition);
-                mesh.rotation.copy(this._fbxNumberRotation);
-                mesh.children[0].name = this._fbxNumberName;
+                mesh.scale.copy(this._scale);
+                mesh.position.copy(this._positon);
+                mesh.rotation.copy(this._rotation);
+                mesh.children[0].name = this.name;
                 this.boxMeshUtil(mesh, this._fbxNumberBoxArray);
                 this._array.push(mesh); //添加到场景数组中
                 this._scene.add(mesh);
             });
+        },
+        envMapLoadUtil: function () {
+            var rgbmCubeRenderTarget
+            new THREE.CubeTextureLoader().setPath('cube/pisaRGBM16/')
+                .load(['right.png', 'left.png', 'top.png', 'bottom.png', 'front.png', 'back.png'], function (rgbmCubeMap) {
+                    rgbmCubeMap.encoding = THREE.RGBM16Encoding;
+                    rgbmCubeMap.format = THREE.RGBAFormat;
+                    var pmremGenerator = new THREE.PMREMGenerator(rgbmCubeMap);
+                    pmremGenerator.update(renderer);
+                    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
+                    pmremCubeUVPacker.update(renderer);
+                    rgbmCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+                    rgbmCubeMap.magFilter = THREE.LinearFilter;
+                    rgbmCubeMap.needsUpdate = true;
+                    //scene.background = rgbmCubeMap;
+                    pmremGenerator.dispose();
+                    pmremCubeUVPacker.dispose();
+
+                });
+            return rgbmCubeRenderTarget;
         }
     }
     return meshUtil;
