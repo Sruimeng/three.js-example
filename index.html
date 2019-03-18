@@ -33,8 +33,14 @@
 <script src="myJS/initScene.js"></script>
 
 <script src="src/js/common.js"></script>
-<script src="src/js/util/meshUtil.js"></script>
 
+<script src="src/js/util/meshUtil.js"></script>
+<script src="src/js/util/sceneUtil.js"></script>
+
+<script src="src/js/data/meshData.js"></script>
+
+<script src="src/js/sevice/meshSevice.js"></script>
+<script src="src/js/sevice/sceneSevice.js"></script>
 <div class="main">
     <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔">
     <div id="WebGLOutput" class="webgl"></div>
@@ -82,6 +88,7 @@
     arr[4] = new Array();
     arr[5] = new Array();
 
+
     var xx = new THREE.Vector2(), tempx = new THREE.Vector2();//旋转动画变量
 
     var mousePoint = new THREE.Vector2();
@@ -92,19 +99,23 @@
     var material = new THREE.MeshStandardMaterial();
     var loader = new THREE.FBXLoader();
     var textureLoader = new THREE.TextureLoader();
-
     /**
      *
      */
     function init() {
-        console.log(material);
         
         //判断浏览器是否支持webgl
         if (WEBGL.isWebGLAvailable() === false) {
             document.body.appendChild(WEBGL.getWebGLErrorMessage());
         }
-        window.addEventListener("mousedown", pickNumber);
-        initCubeMap(initMesh);
+        console.log(projectData);
+        console.log(projectSevice);
+        console.log(projectUtil);
+        var projectParams=projectSevice.sceneSevice.prototype.initScene();
+        console.log(projectParams);
+        projectSevice.meshSevice.prototype.initMesh(projectParams.scene,projectParams.arr);
+        console.log(projectParams);
+        
         startRender();//开始渲染
 
         document.getElementById("WebGLOutput").appendChild(renderer.domElement);

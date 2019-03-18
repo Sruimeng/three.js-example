@@ -4,9 +4,13 @@ projectUtil.meshUtil = (function () {
         constructor: meshUtil,
         create: function (meshParams) {
             if (typeof meshParams !== undefined) {
+                this._type = meshParams.type;
                 this._scene = meshParams.scene;
+                this._rgbmCubeRenderTarget = meshParams.rgbmCubeRenderTarget;
+                this._fbxTextureLoader = meshParams.fbxTextureLoader;
+                this._fbxLoader = meshParams.fbxLoader;
+
                 this._array = meshParams.arr;
-                this.__rgbmCubeRenderTarget = mesh.rgbmCubeRenderTarget
                 this._textFont = meshParams.font;
                 this._text = meshParams.text;
                 this._rotation = meshParams.rotation;
@@ -15,9 +19,7 @@ projectUtil.meshUtil = (function () {
                 this._textSize = meshParams.size;
                 this._name = meshParams.name;
                 this._color = meshParams.color;
-                this._fbxLoader = meshParams.fbxLoader;
                 this._fbxUrl = meshParams.fbxUrl;
-                this._fbxTextureLoader = meshParams.fbxTextureLoader;
                 this._fbxTextureMapUrl = meshParams.textureMapUrl;
                 this._fbxTextureAoMapUrl = meshParams.textureAoMapUrl;
                 this._fbxTextureNormalMapUrl = meshParams.textureNormalMapUrl;
@@ -25,10 +27,27 @@ projectUtil.meshUtil = (function () {
                 this._transparent = meshParams.transparent;
                 this._fbxNumberBoxArray = meshParams.boxArray;
             }
+            this.init(this._type);
             return this;
         },
+        init: function (type) {
+            switch (type) {
+                case 0:
+                    this.textMeshUtil();
+                    break;
+                case 1:
+                    this.fbxMeshUtil();
+                    break;
+                case 2:
+                    this.fbxNumberMeshUtil();
+                    break;
+                case 3:
+                    this.fbxSceneMeshUtil();
+                    break;
+            }
+        },
         textMeshUtil: function () {
-            var geometry = new THREE.TextGeometry(text, {
+            var geometry = new THREE.TextGeometry(this._text, {
                 font: this._textFont,
                 size: this._textSize,
                 height: 0.05,
@@ -56,7 +75,7 @@ projectUtil.meshUtil = (function () {
                 transparent: true,
                 opacity: 0,
             });
-            material.envMap = rgbmCubeRenderTarget.texture;
+            material.envMap = this._rgbmCubeRenderTarget.texture;
             var boxMesh = new THREE.Mesh(geo, material);
             boxMesh.position.copy(this._position);
             boxMesh.rotation.copy(this._rotation);
@@ -88,10 +107,10 @@ projectUtil.meshUtil = (function () {
             });
         },
         fbxSceneMeshUtil: function () {
-            this._fbxSceneLoader.load(this._fbxSceneUrl, function (mesh) {
+            this._fbxLoader.load(this._fbxUrl, function (mesh) {
                 var material = new THREE.MeshStandardMaterial();
                 material.map = mesh.children[0].material.map;
-                material.aoMap = this._fbxSceneLoader.load(this._fbxTextureAoMapUrl);
+                material.aoMap = this._fbxTextureLoader.load(this._fbxTextureAoMapUrl);
                 material.envMap = this._rgbmCubeRenderTarget.texture;
                 material.needsUpdate = true;
                 mesh.children[0].material = material;
@@ -101,7 +120,7 @@ projectUtil.meshUtil = (function () {
             });
         },
         fbxNumberMeshUtil: function () {
-            this._fbxNumberLoader.load(this._fbxNumberUrl, function (mesh) {
+            this._fbxLoader.load(this._fbxUrl, function (mesh) {
                 var material = new THREE.MeshStandardMaterial({
                     transparent: true
                 }); //重置纹理

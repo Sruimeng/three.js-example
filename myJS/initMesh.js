@@ -155,6 +155,19 @@ function initMesh() {
     textMeshUtil("-", new THREE.Euler(0, 0, 0), new THREE.Vector3(1.5, -1.5, 0), arr[3], "5heng", new THREE.Vector3(5, 1, 1), 1);
     textMeshUtil(".", new THREE.Euler(0, 0, 0), new THREE.Vector3(3.5, -1.3, 0), arr[3], "dian", new THREE.Vector3(1, 1, 1), 2);
 
+    
+    textMeshUtil("10cm", new THREE.Euler(0, 0, 0), new THREE.Vector3(-1.5, -1.5, 0), arr[4], "bottom6cm", new THREE.Vector3(1, 1, 1), 1);
+    textMeshUtil("-", new THREE.Euler(0, 0, 0), new THREE.Vector3(-4, -1.5, 0), arr[4], "5heng", new THREE.Vector3(5, 1, 1), 1);
+    textMeshUtil(".", new THREE.Euler(0, 0, 0), new THREE.Vector3(-4, -1.3, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
+    textMeshUtil("-", new THREE.Euler(0, 0, 0), new THREE.Vector3(1.5, -1.5, 0), arr[4], "5heng", new THREE.Vector3(5, 1, 1), 1);
+    textMeshUtil(".", new THREE.Euler(0, 0, 0), new THREE.Vector3(3.5, -1.3, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
+
+    textMeshUtil("35cm", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 8, 0), arr[4], "right22cm", new THREE.Vector3(1, 1, 1), 1);
+    textMeshUtil("-", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 11, 0), arr[4], "20heng", new THREE.Vector3(20, 1, 1), 1);
+    textMeshUtil(".", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(4.8, 19.5, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
+    textMeshUtil("-", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, -1, 0), arr[4], "20heng", new THREE.Vector3(20, 1, 1), 1);
+    textMeshUtil(".", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(4.8, -0.5, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
+
     textMeshUtil("22cm", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 8, 0), arr[3], "right22cm", new THREE.Vector3(1, 1, 1), 1);
     textMeshUtil("-", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 11, 0), arr[3], "20heng", new THREE.Vector3(20, 1, 1), 1);
     textMeshUtil(".", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(4.8, 19.5, 0), arr[3], "dian", new THREE.Vector3(1, 1, 1), 2);
@@ -167,17 +180,6 @@ function initMesh() {
     textMeshUtil("-", new THREE.Euler(0, -Math.PI / 2, 0), new THREE.Vector3(-4, 0, 1.5), arr[4], "4heng", new THREE.Vector3(4, 1, 1), 1);
     textMeshUtil(".", new THREE.Euler(0, -Math.PI / 2, 0), new THREE.Vector3(-4, 0.2, 3), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
 
-    textMeshUtil("10cm", new THREE.Euler(0, 0, 0), new THREE.Vector3(-1.5, -1.5, 0), arr[4], "bottom6cm", new THREE.Vector3(1, 1, 1), 1);
-    textMeshUtil("-", new THREE.Euler(0, 0, 0), new THREE.Vector3(-4, -1.5, 0), arr[4], "5heng", new THREE.Vector3(5, 1, 1), 1);
-    textMeshUtil(".", new THREE.Euler(0, 0, 0), new THREE.Vector3(-4, -1.3, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
-    textMeshUtil("-", new THREE.Euler(0, 0, 0), new THREE.Vector3(1.5, -1.5, 0), arr[4], "5heng", new THREE.Vector3(5, 1, 1), 1);
-    textMeshUtil(".", new THREE.Euler(0, 0, 0), new THREE.Vector3(3.5, -1.3, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
-
-    textMeshUtil("35cm", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 8, 0), arr[4], "right22cm", new THREE.Vector3(1, 1, 1), 1);
-    textMeshUtil("-", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, 11, 0), arr[4], "20heng", new THREE.Vector3(20, 1, 1), 1);
-    textMeshUtil(".", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(4.8, 19.5, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
-    textMeshUtil("-", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(5, -1, 0), arr[4], "20heng", new THREE.Vector3(20, 1, 1), 1);
-    textMeshUtil(".", new THREE.Euler(0, 0, Math.PI / 2), new THREE.Vector3(4.8, -0.5, 0), arr[4], "dian", new THREE.Vector3(1, 1, 1), 2);
 }
 
 function boxMeshUtil(mesh) {

@@ -25,13 +25,12 @@ THREE.FBXLoader = ( function () {
 	var connections;
 	var sceneGraph;
 
-	class FBXLoader {
-		constructor(manager) {
-			console.log(manager);
-			
-			this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
-		}
+	function FBXLoader( manager ) {
+
+		this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+
 	}
+
 	FBXLoader.prototype = {
 
 		constructor: FBXLoader,
@@ -51,9 +50,11 @@ THREE.FBXLoader = ( function () {
 			loader.load( url, function ( buffer ) {
 
 				try {
+
 					onLoad( self.parse( buffer, path ) );
 
 				} catch ( error ) {
+
 					setTimeout( function () {
 
 						if ( onError ) onError( error );
@@ -114,6 +115,8 @@ THREE.FBXLoader = ( function () {
 				fbxTree = new TextParser().parse( FBXText );
 
 			}
+
+			// console.log( fbxTree );
 
 			var textureLoader = new THREE.TextureLoader( this.manager ).setPath( this.resourcePath || path ).setCrossOrigin( this.crossOrigin );
 
@@ -293,6 +296,7 @@ THREE.FBXLoader = ( function () {
 					} else {
 
 						if ( THREE.Loader.Handlers.get( '.tga' ) === null ) {
+
 							var tgaLoader = new THREE.TGALoader();
 							tgaLoader.setPath( this.textureLoader.path );
 
@@ -410,6 +414,7 @@ THREE.FBXLoader = ( function () {
 			if ( extension === 'tga' ) {
 
 				var loader = THREE.Loader.Handlers.get( '.tga' );
+
 				if ( loader === null ) {
 
 					console.warn( 'FBXLoader: TGALoader not found, creating empty placeholder texture for', fileName );
@@ -4129,4 +4134,3 @@ THREE.FBXLoader = ( function () {
 	return FBXLoader;
 
 } )();
-console.log(THREE.FBXLoader);
