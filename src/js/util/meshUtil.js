@@ -2,14 +2,14 @@ projectUtil.meshUtil = (function () {
     function meshUtil() {}
     meshUtil.prototype = {
         constructor: meshUtil,
-        create: function (meshParams) {
+        create: function (meshParams,renderer) {
             if (typeof meshParams !== undefined) {
                 this._type = meshParams.type;
                 this._scene = meshParams.scene;
                 this._rgbmCubeRenderTarget = meshParams.rgbmCubeRenderTarget;
                 this._fbxTextureLoader = meshParams.fbxTextureLoader;
                 this._fbxLoader = meshParams.fbxLoader;
-
+                this._renderer=renderer;
                 this._array = meshParams.arr;
                 this._textFont = meshParams.font;
                 this._text = meshParams.text;
@@ -144,9 +144,9 @@ projectUtil.meshUtil = (function () {
                     rgbmCubeMap.encoding = THREE.RGBM16Encoding;
                     rgbmCubeMap.format = THREE.RGBAFormat;
                     var pmremGenerator = new THREE.PMREMGenerator(rgbmCubeMap);
-                    pmremGenerator.update(renderer);
+                    pmremGenerator.update(this._renderer);
                     var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-                    pmremCubeUVPacker.update(renderer);
+                    pmremCubeUVPacker.update(this._renderer);
                     rgbmCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
                     rgbmCubeMap.magFilter = THREE.LinearFilter;
                     rgbmCubeMap.needsUpdate = true;

@@ -113,7 +113,7 @@
         console.log(projectUtil);
         var projectParams=projectSevice.sceneSevice.prototype.initScene();
         console.log(projectParams);
-        projectSevice.meshSevice.prototype.initMesh(projectParams.scene,projectParams.arr);
+        projectSevice.meshSevice.prototype.initMesh(projectParams);
         console.log(projectParams);
         
         startRender();//开始渲染

@@ -22,7 +22,6 @@ projectUtil.sceneUtil = (function () {
                 helper:this._helper,
                 arr:new Array(6),
             };
-            console.log(this._scene);
         },
         addScene: function () {
             this._scene = new THREE.Scene(); //新建场景
