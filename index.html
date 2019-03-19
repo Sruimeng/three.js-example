@@ -42,7 +42,7 @@
 <script src="src/js/sevice/meshSevice.js"></script>
 <script src="src/js/sevice/sceneSevice.js"></script>
 <div class="main">
-    <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔">
+    <!-- <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔"> -->
     <div id="WebGLOutput" class="webgl"></div>
     <div class="title">
         <div class="message" id="title"></div>
@@ -77,6 +77,7 @@
 </div>
 
 <script>
+    "use strict";
     var renderer, scene, camera, controls, helper; //定义渲染器 场景 摄像机 光源 鼠标控制 辅助线
     var temp = Math.PI / 360, rotationFlag = false, group = new Array(), mouseFlag = false;
     var tempStep = 1;
@@ -111,27 +112,25 @@
         console.log(projectData);
         console.log(projectSevice);
         console.log(projectUtil);
-        var projectParams=projectSevice.sceneSevice.prototype.initScene();
-        console.log(projectParams);
-        projectSevice.meshSevice.prototype.initMesh(projectParams);
-        console.log(projectParams);
-        
-        startRender();//开始渲染
+        projectSevice.sceneSevice.prototype.initScene();
+        projectSevice.meshSevice.prototype.initMesh(projectParams.getParams());
+        projectSevice.sceneSevice.prototype.start(projectParams.getParams());
+        //startRender();//开始渲染
 
-        document.getElementById("WebGLOutput").appendChild(renderer.domElement);
+        document.getElementById("WebGLOutput").appendChild (projectParams.getRendererParams().domElement);
     }
 
-    function startRender() {
-        TWEEN.update();
-        for (i = 0, tickLength = tick.length; i < tickLength; i++) {
-            tick[i].call(this);
-        }
-        meshRotation();
-        //console.log(camera.position);
-        controls.update();
-        renderer.render(scene, camera);
-        requestAnimationFrame(startRender);
-    }
+    // function startRender() {
+    //     TWEEN.update();
+    //     for (i = 0, tickLength = tick.length; i < tickLength; i++) {
+    //         tick[i].call(this);
+    //     }
+    //     meshRotation();
+    //     //console.log(camera.position);
+    //     controls.update();
+    //     renderer.render(scene, camera);
+    //     requestAnimationFrame(startRender);
+    // }
 
     window.onload = init; //当网页加载后执行init方法
 </script>

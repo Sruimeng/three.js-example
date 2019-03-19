@@ -2,8 +2,10 @@ projectSevice.sceneSevice=(function (){
     function sceneSevice(){};
     sceneSevice.prototype={
         initScene:function(){
-            var sceneParams=projectUtil.sceneUtil.prototype.creatScene();
-            return sceneParams;
+            projectUtil.sceneUtil.prototype.creatScene();
+        },
+        start:function(params){
+            projectUtil.sceneUtil.prototype.startRender(params);
         }
     }
     return sceneSevice;

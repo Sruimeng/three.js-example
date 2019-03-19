@@ -34405,7 +34405,7 @@
 
 				var request = new XMLHttpRequest();
 
-				request.open( 'GET', url, true );
+				request.open( 'GET', url, false );
 
 				request.addEventListener( 'load', function ( event ) {
 
@@ -39843,7 +39843,6 @@
 			loader.load( url, function ( text ) {
 
 				var json;
-
 				try {
 
 					json = JSON.parse( text );

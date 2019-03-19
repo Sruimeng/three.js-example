@@ -2,14 +2,14 @@ projectUtil.meshUtil = (function () {
     function meshUtil() {}
     meshUtil.prototype = {
         constructor: meshUtil,
-        create: function (meshParams,renderer) {
+        create: function (meshParams, renderer) {
             if (typeof meshParams !== undefined) {
                 this._type = meshParams.type;
                 this._scene = meshParams.scene;
                 this._rgbmCubeRenderTarget = meshParams.rgbmCubeRenderTarget;
                 this._fbxTextureLoader = meshParams.fbxTextureLoader;
                 this._fbxLoader = meshParams.fbxLoader;
-                this._renderer=renderer;
+                this._renderer = renderer;
                 this._array = meshParams.arr;
                 this._textFont = meshParams.font;
                 this._text = meshParams.text;
@@ -137,25 +137,33 @@ projectUtil.meshUtil = (function () {
                 this._scene.add(mesh);
             });
         },
-        envMapLoadUtil: function () {
-            var rgbmCubeRenderTarget
-            new THREE.CubeTextureLoader().setPath('cube/pisaRGBM16/')
-                .load(['right.png', 'left.png', 'top.png', 'bottom.png', 'front.png', 'back.png'], function (rgbmCubeMap) {
-                    rgbmCubeMap.encoding = THREE.RGBM16Encoding;
-                    rgbmCubeMap.format = THREE.RGBAFormat;
-                    var pmremGenerator = new THREE.PMREMGenerator(rgbmCubeMap);
-                    pmremGenerator.update(this._renderer);
-                    var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
-                    pmremCubeUVPacker.update(this._renderer);
-                    rgbmCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
-                    rgbmCubeMap.magFilter = THREE.LinearFilter;
-                    rgbmCubeMap.needsUpdate = true;
-                    //scene.background = rgbmCubeMap;
-                    pmremGenerator.dispose();
-                    pmremCubeUVPacker.dispose();
-
+        envMapLoadUtil: function (render) {
+            var rgbmCubeRenderTarget;
+            return new Promise(function (resolve, reject) {
+                new THREE.CubeTextureLoader().setPath('cube/pisaRGBM16/')
+                    .load(['right.png', 'left.png', 'top.png', 'bottom.png', 'front.png', 'back.png'], function (rgbmCubeMap) {
+                        rgbmCubeMap.encoding = THREE.RGBM16Encoding;
+                        rgbmCubeMap.format = THREE.RGBAFormat;
+                        var pmremGenerator = new THREE.PMREMGenerator(rgbmCubeMap);
+                        pmremGenerator.update(render);
+                        var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker(pmremGenerator.cubeLods);
+                        pmremCubeUVPacker.update(render);
+                        rgbmCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+                        rgbmCubeMap.magFilter = THREE.LinearFilter;
+                        rgbmCubeMap.needsUpdate = true;
+                        //scene.background = rgbmCubeMap;
+                        pmremGenerator.dispose();
+                        pmremCubeUVPacker.dispose();
+                        resolve(rgbmCubeRenderTarget);
+                    });
+            });
+        },
+        fontLoadUtil:function(){
+            return new Promise((resolve, reject) => {
+                new THREE.FontLoader().load("font/gentilis_bold.typeface.json", function (font) {
+                    resolve(font);
                 });
-            return rgbmCubeRenderTarget;
+            });
         }
     }
     return meshUtil;

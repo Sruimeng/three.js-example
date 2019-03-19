@@ -14,14 +14,14 @@ projectUtil.sceneUtil = (function () {
             this.addControls();
             this.addRenderer();
             this.addSupport();
-            return {
-                renderer:this._renderer,
-                scene:this._scene,
-                camera:this._camera,
-                controls:this._controls,
-                helper:this._helper,
-                arr:new Array(6),
-            };
+
+            var params = projectParams.getParams();
+            params.renderer = this._renderer;
+            params.scene = this._scene;
+            params.camera = this._camera;
+            params.controls = this._controls;
+            params.helper = this._helper;
+            projectParams.setParams(params);
         },
         addScene: function () {
             this._scene = new THREE.Scene(); //新建场景
@@ -63,7 +63,20 @@ projectUtil.sceneUtil = (function () {
             this._renderer.toneMapping = THREE.ACESFilmicToneMapping;
             this._renderer.toneMappingExposure = 0.7;
             this._renderer.gammaFactor = 2.2;
-        }
+        },
+        startRender: function (params) {
+            (function render(){
+                "use strict";
+                TWEEN.update();
+                for (var i = 0, tickLength = tick.length; i < tickLength; i++) {
+                    tick[i].call(this);
+                }
+                meshRotation();
+                params.controls.update();
+                params.renderer.render(params.scene, params.camera);
+                window.requestAnimationFrame(render);
+            })(); 
+        },
     };
     return sceneUtil;
 })();
