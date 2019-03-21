@@ -1,30 +1,31 @@
 projectData.meshData = (function () {
     function meshData() {};
     meshData.prototype = {
-        createLoader: function (scene,render) {
+        createLoader: function (scene, render) {
             var self = this;
-            self._fbxLoader = new THREE.FBXLoader();
-            self._fbxTextureLoader = new THREE.TextureLoader();
-            projectUtil.meshUtil.prototype.envMapLoadUtil(render).then(function (value) {
-                self._rgbmCubeRenderTarget = value;
+            return new Promise(function (resolve, reject) {
+                projectUtil.meshUtil.prototype.envMapLoadUtil(render).then(function (value) {
+                    self._rgbmCubeRenderTarget = value;
+                    self._scene = scene;
+                    self._fbxLoader = new THREE.FBXLoader();
+                    self._fbxTextureLoader = new THREE.TextureLoader();
+                    self._font = undefined;
+                    return projectUtil.meshUtil.prototype.fontLoadUtil();
+                }).then(function (value) {
+                    self._font = value;
+                    resolve(self);
+                });
             });
-            
-            self._scene = scene;
-            projectUtil.meshUtil.prototype.fontLoadUtil().then(function (value) {
-                self._font  = value;
-            });
-            
-            return self;
         },
-        fbxDate: function (array) {
+        fbxDate: function (array,params) {
             var fbxPath = "fbx/"
             var fbxParams = new Array();
             fbxParams[0] = {
                 type: 1,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[2],
                 text: "",
                 rotation: "",
@@ -43,10 +44,10 @@ projectData.meshData = (function () {
             };
             fbxParams[1] = {
                 type: 1,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[2],
                 text: "",
                 rotation: "",
@@ -65,10 +66,10 @@ projectData.meshData = (function () {
             };
             fbxParams[2] = {
                 type: 1,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[2],
                 text: "",
                 rotation: "",
@@ -87,10 +88,10 @@ projectData.meshData = (function () {
             };
             fbxParams[3] = {
                 type: 3,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[0],
                 text: "",
                 rotation: "",
@@ -109,10 +110,10 @@ projectData.meshData = (function () {
             };
             fbxParams[4] = {
                 type: 2,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
                 rotation: new THREE.Euler(0, Math.PI / 2, 0),
@@ -131,10 +132,10 @@ projectData.meshData = (function () {
             };
             fbxParams[5] = {
                 type: 2,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
                 rotation: new THREE.Euler(0, Math.PI / 2, 0),
@@ -153,10 +154,10 @@ projectData.meshData = (function () {
             };
             fbxParams[6] = {
                 type: 2,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
                 rotation: new THREE.Euler(Math.PI / 2, 0, 0),
@@ -175,10 +176,10 @@ projectData.meshData = (function () {
             };
             fbxParams[7] = {
                 type: 2,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
                 rotation: new THREE.Euler(0, Math.PI / 2, 0),
@@ -197,12 +198,12 @@ projectData.meshData = (function () {
             };
             fbxParams[8] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "6cm",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0, -1),
@@ -220,12 +221,12 @@ projectData.meshData = (function () {
             };
             fbxParams[9] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0, -3),
@@ -243,12 +244,12 @@ projectData.meshData = (function () {
             };
             fbxParams[10] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, 3),
@@ -266,12 +267,12 @@ projectData.meshData = (function () {
             };
             fbxParams[11] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, -3.2),
@@ -289,12 +290,12 @@ projectData.meshData = (function () {
             };
             fbxParams[12] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, 3),
@@ -313,12 +314,12 @@ projectData.meshData = (function () {
 
             fbxParams[13] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "6cm",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-1, -1.5, 0),
@@ -336,12 +337,12 @@ projectData.meshData = (function () {
             };
             fbxParams[14] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-3, -1.5, 0),
@@ -359,12 +360,12 @@ projectData.meshData = (function () {
             };
             fbxParams[15] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(1.5, -1.5, 0),
@@ -382,12 +383,12 @@ projectData.meshData = (function () {
             };
             fbxParams[16] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-3.2, -1.3, 0),
@@ -405,12 +406,12 @@ projectData.meshData = (function () {
             };
             fbxParams[17] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(3.5, -1.3, 0),
@@ -429,12 +430,12 @@ projectData.meshData = (function () {
 
             fbxParams[18] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "10cm",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-1.5, -1.5, 0),
@@ -452,12 +453,12 @@ projectData.meshData = (function () {
             };
             fbxParams[19] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-4, -1.5, 0),
@@ -475,12 +476,12 @@ projectData.meshData = (function () {
             };
             fbxParams[20] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(1.5, -1.5, 0),
@@ -498,12 +499,12 @@ projectData.meshData = (function () {
             };
             fbxParams[21] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-4, -1.3, 0),
@@ -521,12 +522,12 @@ projectData.meshData = (function () {
             };
             fbxParams[22] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(3.5, -1.3, 0),
@@ -545,12 +546,12 @@ projectData.meshData = (function () {
 
             fbxParams[23] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "11cm",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0, -1.5),
@@ -568,12 +569,12 @@ projectData.meshData = (function () {
             };
             fbxParams[24] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0, -3.5),
@@ -591,12 +592,12 @@ projectData.meshData = (function () {
             };
             fbxParams[25] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, 3),
@@ -614,12 +615,12 @@ projectData.meshData = (function () {
             };
             fbxParams[26] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, -3.7),
@@ -637,12 +638,12 @@ projectData.meshData = (function () {
             };
             fbxParams[27] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, -Math.PI / 2, 0),
                 position: new THREE.Vector3(-4, 0.2, 3),
@@ -661,12 +662,12 @@ projectData.meshData = (function () {
 
             fbxParams[28] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "35cm",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(5, 8, 0),
@@ -684,12 +685,12 @@ projectData.meshData = (function () {
             };
             fbxParams[29] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(5, 11, 0),
@@ -707,12 +708,12 @@ projectData.meshData = (function () {
             };
             fbxParams[30] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(4.8, -0.5, 0),
@@ -730,12 +731,12 @@ projectData.meshData = (function () {
             };
             fbxParams[31] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(4.8, 19.5, 0),
@@ -753,12 +754,12 @@ projectData.meshData = (function () {
             };
             fbxParams[32] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[4],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, -Math.PI / 2),
                 position: new THREE.Vector3(4.8, -0.5, 0),
@@ -777,12 +778,12 @@ projectData.meshData = (function () {
 
             fbxParams[33] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "22cm",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(5, 8, 0),
@@ -800,12 +801,12 @@ projectData.meshData = (function () {
             };
             fbxParams[34] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(5, 11, 0),
@@ -823,12 +824,12 @@ projectData.meshData = (function () {
             };
             fbxParams[35] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: "-",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(4.8, -0.5, 0),
@@ -846,12 +847,12 @@ projectData.meshData = (function () {
             };
             fbxParams[36] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, Math.PI / 2),
                 position: new THREE.Vector3(4.8, 19.5, 0),
@@ -869,12 +870,12 @@ projectData.meshData = (function () {
             };
             fbxParams[37] = {
                 type: 0,
-                scene: this._scene,
-                rgbmCubeRenderTarget: this._rgbmCubeRenderTarget,
-                fbxTextureLoader: this._fbxTextureLoader,
-                fbxLoader: this._fbxLoader,
+                scene: params._scene,
+                rgbmCubeRenderTarget: params._rgbmCubeRenderTarget,
+                fbxTextureLoader: params._fbxTextureLoader,
+                fbxLoader: params._fbxLoader,
                 arr: array[3],
-                font: this._font,
+                font: params._font,
                 text: ".",
                 rotation: new THREE.Euler(0, 0, -Math.PI / 2),
                 position: new THREE.Vector3(4.8, -0.5, 0),

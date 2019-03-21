@@ -1,34 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        .step1 .title>.name{
-
-        }
-    </style>
 </head>
+<div id="canvas" class="webgl"></div>
 <body>
-    <div class="step1">
-        <div class="title">
-            <p class="name"></p>
-            <div class="line">
-                <p class="name"></p>
-            </div>
-        </div>
-        <div class="msg">
-            <p class="name"></p>
-        </div>
-    </div>
-    <div class="step2">
-        <div class="title">
-            <p class="name"></p>
-            <div class="line"></div>
-        </div>
-        <div class="msg">
-            <p class="name"></p>
-        </div>
-    </div>
+    <script>
+        let canvas = document.querySelector("canvas");
+        canvas.width = 500;
+        canvas.height = 500;
+        let gpu = canvas.getContext("Webgpu");
+
+        let library = gpu.createLibrary(loadShaderFromScript("library"));
+        library.label = "Example label";
+
+        let vertexF = library.functionWithName("vertex_main");
+        let fragmentF = library.functionWithName("fragment_main");
+
+        let vertexData = new Float32Array([
+            // x y z 1 r g b 1
+            0, 0.75, 0, 1, 1, 0, 0, 1,
+            -0.75, -0.75, 0, 1, 0, 1, 0, 1,
+            0.75, -0.75, 0, 1, 0, 0, 1, 1
+        ]);
+        let vertexBuffer = gpu.createBuffer(vertexData);
+
+        let pipelineDescriptor = new WebGPURenderPipelineDescriptor();
+        pipelineDescriptor.vertexFunction = vertexF;
+        pipelineDescriptor.fragmentFunction = fragmentF;
+        pipelineDescriptor.colorAttachments[0].pixelFormat = "BGRA8Unorm";
+
+        let pipelineState = gpu.createRenderPipelineState(pipelineDescriptor);
+
+        let drawable = gpu.nextDrawable();
+
+        let passDescriptor = new WebGPURenderPassDescriptor();
+        passDescriptor.colorAttachments[0].loadAction = "clear";
+        passDescriptor.colorAttachments[0].storeAction = "store";
+        passDescriptor.colorAttachments[0].clearColor = [0.8, 0.8, 0.8, 1.0];
+        passDescriptor.colorAttachments[0].texture = drawable.texture;
+
+        let commandQueue = gpu.createCommandQueue();
+
+        let commandBuffer = commandQueue.createCommandBuffer();
+
+        let commandEncoder = commandBuffer.createRenderCommandEncoder(passDescriptor);
+        commandEncoder.setRenderPipelineState(pipelineState);
+        commandEncoder.setVertexBuffer(vertexBuffer, 0, 0);
+
+        commandEncoder.drawPrimitives("triangle", 0, 3);
+        commandEncoder.endEncoding();
+        commandBuffer.presentDrawable(drawable);
+        commandBuffer.commit();
+    </script>
 </body>
+
 </html>
