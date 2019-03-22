@@ -36029,7 +36029,7 @@ var scope=this;
 					image.removeEventListener('error', onImageError, false);
 
 					Cache.add(url, this);
-
+					resolve(image);
 					scope.manager.itemEnd(url);
 
 				}
@@ -36044,9 +36044,8 @@ var scope=this;
 					scope.manager.itemEnd(url);
 
 				}
-
 				image.src = url;
-				resolve(image);
+				
 			})
 
 		},
@@ -36221,7 +36220,8 @@ var scope=this;
 			loader.setCrossOrigin(this.crossOrigin);
 			loader.setPath(this.path);
 
-			var image =await loader.awaitLoad(url);
+		var image =await loader.awaitLoad(url);
+			texture.image=image;
 			console.log(image);
 			// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
 			var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || url.search(/^data\:image\/jpeg/) === 0;
@@ -36240,7 +36240,7 @@ var scope=this;
 			loader.setPath( this.path );
 
 			loader.load( url, function ( image ) {
-
+				console.log(image);
 				texture.image = image;
 
 				// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
