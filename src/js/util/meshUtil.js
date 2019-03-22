@@ -105,8 +105,6 @@ projectUtil.meshUtil = (function () {
             //     this._arr.push(mesh); //添加到场景数组中
             //     this._scene.add(mesh);
             // });
-            
-            var c=this._fbxTextureLoader.load(this._textureMapUrl);
             params = {
                 transparent: this._transparent,
                 roughness: 0.5,
@@ -123,8 +121,8 @@ projectUtil.meshUtil = (function () {
             var material = new THREE.MeshStandardMaterial(params); //重置纹理
             console.log(material)
             mesh = await this._fbxLoader.awaitLoad(this._fbxUrl);
-            // material.normalMap.wrapS = THREE.RepeatWrapping;
-            // material.map.wrapS = THREE.RepeatWrapping;
+            material.normalMap.wrapS = THREE.RepeatWrapping;
+            material.map.wrapS = THREE.RepeatWrapping;
             mesh.children[0].material = material;
             mesh.scale.copy(this._scale);
             this._arr.push(mesh); //添加到场景数组中
