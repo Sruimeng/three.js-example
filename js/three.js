@@ -35122,7 +35122,7 @@
 	Object.assign(FileLoader.prototype, {
 
 
-		load: function (url, onLoad) {
+		awaitLoad: function (url, onLoad) {
 
 			if (url === undefined) url = '';
 
@@ -35265,10 +35265,9 @@
 
 				});
 				var request = new XMLHttpRequest();
-
+var scope=this;
 				request.open('GET', url, true);
-
-
+				console.log(this);
 				return new Promise(function (resolve, reject) {
 					request.addEventListener('load', function (event) {
 
@@ -35295,7 +35294,7 @@
 
 							}
 
-							//scope.manager.itemEnd(url);
+							scope.manager.itemEnd(url);
 
 						} else {
 
@@ -35306,8 +35305,8 @@
 
 							}
 
-							// scope.manager.itemError(url);
-							// scope.manager.itemEnd(url);
+							scope.manager.itemError(url);
+							scope.manager.itemEnd(url);
 
 						}
 
@@ -35362,16 +35361,16 @@
 
 					// }, false);
 
-					// if (this.responseType !== undefined) request.responseType = this.responseType;
-					// if (this.withCredentials !== undefined) request.withCredentials = this.withCredentials;
+					if (scope.responseType !== undefined) request.responseType = scope.responseType;
+					if (scope.withCredentials !== undefined) request.withCredentials = scope.withCredentials;
 
-					// if (request.overrideMimeType) request.overrideMimeType(this.mimeType !== undefined ? this.mimeType : 'text/plain');
+					if (request.overrideMimeType) request.overrideMimeType(scope.mimeType !== undefined ? scope.mimeType : 'text/plain');
 
-					// for (var header in this.requestHeader) {
+					for (var header in scope.requestHeader) {
 
-					// 	request.setRequestHeader(header, this.requestHeader[header]);
+						request.setRequestHeader(header, scope.requestHeader[header]);
 
-					// }
+					}
 
 					request.send(null);
 				});
@@ -35382,7 +35381,271 @@
 			return request;
 
 		},
+		load: function (url, onLoad, onProgress, onError) {
 
+			if (url === undefined) url = '';
+
+			if (this.path !== undefined) url = this.path + url;
+
+			url = this.manager.resolveURL(url);
+
+			var scope = this;
+
+			var cached = Cache.get(url);
+
+			if (cached !== undefined) {
+
+				scope.manager.itemStart(url);
+
+				setTimeout(function () {
+
+					if (onLoad) onLoad(cached);
+
+					scope.manager.itemEnd(url);
+
+				}, 0);
+
+				return cached;
+
+			}
+
+			// Check if request is duplicate
+
+			if (loading[url] !== undefined) {
+
+				loading[url].push({
+
+					onLoad: onLoad,
+					onProgress: onProgress,
+					onError: onError
+
+				});
+
+				return;
+
+			}
+
+			// Check for data: URI
+			var dataUriRegex = /^data:(.*?)(;base64)?,(.*)$/;
+			var dataUriRegexResult = url.match(dataUriRegex);
+
+			// Safari can not handle Data URIs through XMLHttpRequest so process manually
+			if (dataUriRegexResult) {
+
+				var mimeType = dataUriRegexResult[1];
+				var isBase64 = !!dataUriRegexResult[2];
+				var data = dataUriRegexResult[3];
+
+				data = decodeURIComponent(data);
+
+				if (isBase64) data = atob(data);
+
+				try {
+
+					var response;
+					var responseType = (this.responseType || '').toLowerCase();
+
+					switch (responseType) {
+
+						case 'arraybuffer':
+						case 'blob':
+
+							var view = new Uint8Array(data.length);
+
+							for (var i = 0; i < data.length; i++) {
+
+								view[i] = data.charCodeAt(i);
+
+							}
+
+							if (responseType === 'blob') {
+
+								response = new Blob([view.buffer], {
+									type: mimeType
+								});
+
+							} else {
+
+								response = view.buffer;
+
+							}
+
+							break;
+
+						case 'document':
+
+							var parser = new DOMParser();
+							response = parser.parseFromString(data, mimeType);
+
+							break;
+
+						case 'json':
+
+							response = JSON.parse(data);
+
+							break;
+
+						default: // 'text' or other
+
+							response = data;
+
+							break;
+
+					}
+
+					// Wait for next browser tick like standard XMLHttpRequest event dispatching does
+					setTimeout(function () {
+
+						if (onLoad) onLoad(response);
+
+						scope.manager.itemEnd(url);
+
+					}, 0);
+
+				} catch (error) {
+
+					// Wait for next browser tick like standard XMLHttpRequest event dispatching does
+					setTimeout(function () {
+
+						if (onError) onError(error);
+
+						scope.manager.itemError(url);
+						scope.manager.itemEnd(url);
+
+					}, 0);
+
+				}
+
+			} else {
+
+				// Initialise array for duplicate requests
+
+				loading[url] = [];
+
+				loading[url].push({
+
+					onLoad: onLoad,
+					onProgress: onProgress,
+					onError: onError
+
+				});
+				console.log(this.response);
+				var request = new XMLHttpRequest();
+
+				request.open('GET', url, true);
+
+				request.addEventListener('load', function (event) {
+					console.log(event);
+					var response = this.response;
+
+					Cache.add(url, response);
+
+					var callbacks = loading[url];
+
+					delete loading[url];
+
+					if (this.status === 200 || this.status === 0) {
+
+						// Some browsers return HTTP Status 0 when using non-http protocol
+						// e.g. 'file://' or 'data://'. Handle as success.
+
+						if (this.status === 0) console.warn('THREE.FileLoader: HTTP Status 0 received.');
+
+						for (var i = 0, il = callbacks.length; i < il; i++) {
+
+							var callback = callbacks[i];
+							console.log(response)
+							if (callback.onLoad) callback.onLoad(response);
+
+						}
+
+						scope.manager.itemEnd(url);
+
+					} else {
+
+						for (var i = 0, il = callbacks.length; i < il; i++) {
+
+							var callback = callbacks[i];
+							if (callback.onError) callback.onError(event);
+
+						}
+
+						scope.manager.itemError(url);
+						scope.manager.itemEnd(url);
+
+					}
+
+				}, false);
+
+				request.addEventListener('progress', function (event) {
+
+					var callbacks = loading[url];
+
+					for (var i = 0, il = callbacks.length; i < il; i++) {
+
+						var callback = callbacks[i];
+						if (callback.onProgress) callback.onProgress(event);
+
+					}
+
+				}, false);
+
+				request.addEventListener('error', function (event) {
+
+					var callbacks = loading[url];
+
+					delete loading[url];
+
+					for (var i = 0, il = callbacks.length; i < il; i++) {
+
+						var callback = callbacks[i];
+						if (callback.onError) callback.onError(event);
+
+					}
+
+					scope.manager.itemError(url);
+					scope.manager.itemEnd(url);
+
+				}, false);
+
+				request.addEventListener('abort', function (event) {
+
+					var callbacks = loading[url];
+
+					delete loading[url];
+
+					for (var i = 0, il = callbacks.length; i < il; i++) {
+
+						var callback = callbacks[i];
+						if (callback.onError) callback.onError(event);
+
+					}
+
+					scope.manager.itemError(url);
+					scope.manager.itemEnd(url);
+
+				}, false);
+
+				if (this.responseType !== undefined) request.responseType = this.responseType;
+				if (this.withCredentials !== undefined) request.withCredentials = this.withCredentials;
+
+				if (request.overrideMimeType) request.overrideMimeType(this.mimeType !== undefined ? this.mimeType : 'text/plain');
+
+				for (var header in this.requestHeader) {
+
+					request.setRequestHeader(header, this.requestHeader[header]);
+
+				}
+
+				request.send(null);
+
+			}
+
+			scope.manager.itemStart(url);
+
+			return request;
+
+		},
 		setPath: function (value) {
 
 			this.path = value;
@@ -35717,6 +35980,77 @@
 
 		crossOrigin: 'anonymous',
 
+		awaitLoad: function (url) {
+			if (url === undefined) url = '';
+
+			if (this.path !== undefined) url = this.path + url;
+
+			url = this.manager.resolveURL(url);
+
+			var scope = this;
+
+			var cached = Cache.get(url);
+
+			if (cached !== undefined) {
+
+				scope.manager.itemStart(url);
+
+				setTimeout(function () {
+
+					if (onLoad) onLoad(cached);
+
+					scope.manager.itemEnd(url);
+
+				}, 0);
+
+				return cached;
+
+			}
+
+			var image = document.createElementNS('http://www.w3.org/1999/xhtml', 'img');
+
+			if (url.substr(0, 5) !== 'data:') {
+
+				if (this.crossOrigin !== undefined) image.crossOrigin = this.crossOrigin;
+
+			}
+
+			return new Promise(function (resolve, reject) {
+				image.addEventListener('load', onImageLoad, false);
+				image.addEventListener('error', onImageError, false);
+
+
+
+				scope.manager.itemStart(url);
+
+				function onImageLoad() {
+
+					image.removeEventListener('load', onImageLoad, false);
+					image.removeEventListener('error', onImageError, false);
+
+					Cache.add(url, this);
+
+					scope.manager.itemEnd(url);
+
+				}
+
+				function onImageError(event) {
+
+					image.removeEventListener('load', onImageLoad, false);
+					image.removeEventListener('error', onImageError, false);
+
+					reject(event);
+					scope.manager.itemError(url);
+					scope.manager.itemEnd(url);
+
+				}
+
+				image.src = url;
+				resolve(image);
+			})
+
+		},
+
 		load: function (url, onLoad, onProgress, onError) {
 
 			if (url === undefined) url = '';
@@ -35829,25 +36163,12 @@
 			loader.setPath(this.path);
 
 			var loaded = 0;
+			var image = undefined;
+			async function loadTexture(i) {
 
-			function loadTexture(i) {
-
-				loader.load(urls[i], function (image) {
-
-					texture.images[i] = image;
-
-					loaded++;
-
-					if (loaded === 6) {
-
-						texture.needsUpdate = true;
-
-						if (onLoad) onLoad(texture);
-
-					}
-
-				}, undefined, onError);
-
+				image = await loader.awaitLoad(urls[i]);
+				texture.images[i] = image;
+				loaded++;
 			}
 
 			for (var i = 0; i < urls.length; ++i) {
@@ -35891,35 +36212,55 @@
 
 		crossOrigin: 'anonymous',
 
-		load: function (url, onLoad, onProgress, onError) {
+		awaitLoad:async function (url, onLoad, onProgress, onError) {
 
+			
 			var texture = new Texture();
 
 			var loader = new ImageLoader(this.manager);
 			loader.setCrossOrigin(this.crossOrigin);
 			loader.setPath(this.path);
 
-			loader.load(url, function (image) {
+			var image =await loader.awaitLoad(url);
+			console.log(image);
+			// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
+			var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || url.search(/^data\:image\/jpeg/) === 0;
+
+			texture.format = isJPEG ? RGBFormat : RGBAFormat;
+			texture.needsUpdate = true;
+			return texture;
+
+		},
+		load: function ( url, onLoad, onProgress, onError ) {
+
+			var texture = new Texture();
+
+			var loader = new ImageLoader( this.manager );
+			loader.setCrossOrigin( this.crossOrigin );
+			loader.setPath( this.path );
+
+			loader.load( url, function ( image ) {
 
 				texture.image = image;
 
 				// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
-				var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || url.search(/^data\:image\/jpeg/) === 0;
+				var isJPEG = url.search( /\.jpe?g($|\?)/i ) > 0 || url.search( /^data\:image\/jpeg/ ) === 0;
 
 				texture.format = isJPEG ? RGBFormat : RGBAFormat;
 				texture.needsUpdate = true;
 
-				if (onLoad !== undefined) {
+				if ( onLoad !== undefined ) {
 
-					onLoad(texture);
+					onLoad( texture );
 
 				}
 
-			}, onProgress, onError);
+			}, onProgress, onError );
 
 			return texture;
 
 		},
+
 
 		setCrossOrigin: function (value) {
 
@@ -40475,20 +40816,40 @@
 
 		awaitLoad: async function (url) {
 			var scope = this;
-			var text=undefined;
+			var text = undefined;
 			var loader = new FileLoader(scope.manager);
 			loader.setPath(scope.path);
-			text = await loader.load(url)
-				.then(
-					function (value) {
-						text=JSON.parse(value);
-					}
-				).catch(
-					function (error) {
-						console.error(`THREE.FontLoader Error:${error}`);
-					}
-				);
-			return text;
+			text = await loader.awaitLoad(url);
+			return JSON.parse(text);
+		},
+
+		load: function ( url, onLoad, onProgress, onError ) {
+
+			var scope = this;
+
+			var loader = new FileLoader( this.manager );
+			loader.setPath( this.path );
+			loader.load( url, function ( text ) {
+
+				var json;
+
+				try {
+
+					json = JSON.parse( text );
+
+				} catch ( e ) {
+
+					console.warn( 'THREE.FontLoader: typeface.js support is being deprecated. Use typeface.json instead.' );
+					json = JSON.parse( text.substring( 65, text.length - 2 ) );
+
+				}
+
+				var font = scope.parse( json );
+
+				if ( onLoad ) onLoad( font );
+
+			}, onProgress, onError );
+
 		},
 
 		parse: function (json) {

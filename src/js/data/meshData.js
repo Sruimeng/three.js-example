@@ -1,23 +1,22 @@
 projectData.meshData = (function () {
     function meshData() {};
     meshData.prototype = {
-        createLoader: function (scene, render) {
+        createLoader:async function (scene, render) {
             var self = this;
-            return new Promise(function (resolve, reject) {
-                projectUtil.meshUtil.prototype.envMapLoadUtil(render).then(function (value) {
-                    self._rgbmCubeRenderTarget = value;
-                    self._scene = scene;
-                    self._fbxLoader = new THREE.FBXLoader();
-                    self._fbxTextureLoader = new THREE.TextureLoader();
-                    self._font = undefined;
-                    return projectUtil.meshUtil.prototype.fontLoadUtil();
-                }).then(function (value) {
-                    self._font = value;
-                    resolve(self);
-                });
-            });
+            await projectUtil.meshUtil.prototype.envMapLoadUtil(render).then(
+                function(value){self._rgbmCubeRenderTarget =value;}
+            );
+
+            self._scene = scene;
+            self._fbxLoader = new THREE.FBXLoader();
+            self._fbxTextureLoader = new THREE.TextureLoader();
+            self._font = undefined;
+            await projectUtil.meshUtil.prototype.fontLoadUtil().then(
+                function(value){self._font =value;});
+            console.log(self);
+            return self;
         },
-        fbxDate: function (array,params) {
+        fbxDate: function (array, params) {
             var fbxPath = "fbx/"
             var fbxParams = new Array();
             fbxParams[0] = {

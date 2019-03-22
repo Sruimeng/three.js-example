@@ -6,6 +6,7 @@
         "module": "commonjs",
         "allowSyntheticDefaultImports": true
     },
+
     "exclude": [
         "node_modules",
         "bower_components",

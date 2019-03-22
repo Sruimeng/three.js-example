@@ -17,8 +17,8 @@
  * 	Binary format specification:
  *		https://code.blender.org/2013/08/fbx-binary-file-format-specification/
  */
-
-
+/// <reference path="../node_modules/@types/three/index.d.ts" />
+/// <reference path="../node_modules/@types/core-js/index.d.ts" />
 THREE.FBXLoader = (function () {
 
 	var fbxTree;
@@ -31,11 +31,24 @@ THREE.FBXLoader = (function () {
 
 	}
 
-	FBXLoader.prototype = {
+	
 
+	FBXLoader.prototype = {
 		constructor: FBXLoader,
 
 		crossOrigin: 'anonymous',
+
+		awaitLoad:async function(url){
+			var scope = this;
+			var path = (scope.path === undefined) ? THREE.LoaderUtils.extractUrlBase(url) : scope.path;
+			var text = undefined;
+			var loader = new THREE.FileLoader(scope.manager);
+			loader.setPath(scope.path);
+			loader.setResponseType('arraybuffer');
+			text = await loader.awaitLoad(url);
+			var result=scope.parse(text,path);
+			return result;
+		},
 
 		load: function (url, onLoad, onProgress, onError) {
 			var self = this;
@@ -45,7 +58,6 @@ THREE.FBXLoader = (function () {
 				var loader = new THREE.FileLoader(this.manager);
 				loader.setPath(self.path);
 				loader.setResponseType('arraybuffer');
-
 				loader.load(url, function (buffer) {
 					try {
 						onLoad(self.parse(buffer, path));
