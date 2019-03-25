@@ -41,6 +41,7 @@
 
 <script src="src/js/sevice/meshSevice.js"></script>
 <script src="src/js/sevice/sceneSevice.js"></script>
+<script src="src/js/sevice/pageSevice.js"></script>
 <div class="main">
     <!-- <img class="step1" id="step1" src="./img/1page.jpg" alt="可米兔"> -->
     <div id="WebGLOutput" class="webgl"></div>
@@ -64,7 +65,7 @@
     </div>
 
     <div class="footer">
-        <div class="rightButton" id="rightBtn" onclick="rightButtonClick()"></div>
+        <div class="rightButton" id="rightBtn" onclick="projectSevice.pageSevice.prototype.buttonClick(true)"></div>
         <ul class="icons" id="icons">
             <li class="icon active"></li>
             <li class="icon"></li>
@@ -72,7 +73,8 @@
             <li class="icon"></li>
             <li class="icon"></li>
         </ul>
-        <div class="rightButton leftButton" id="leftBtn" onclick="leftButtonClick()"></div>
+        <div class="rightButton leftButton" id="leftBtn" onclick="
+        projectSevice.pageSevice.prototype.buttonClick(false)"></div>
     </div>
 </div>
 
