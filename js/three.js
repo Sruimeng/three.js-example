@@ -35265,14 +35265,11 @@
 
 				});
 				var request = new XMLHttpRequest();
-var scope=this;
+				var scope = this;
 				request.open('GET', url, true);
-				console.log(this);
 				return new Promise(function (resolve, reject) {
 					request.addEventListener('load', function (event) {
-
 						var response = this.response;
-
 						Cache.add(url, response);
 
 						var callbacks = loading[url];
@@ -35301,10 +35298,10 @@ var scope=this;
 							for (var i = 0, il = callbacks.length; i < il; i++) {
 
 								var callback = callbacks[i];
-								reject(event); //callback.onError(event);
+								 //callback.onError(event);
 
 							}
-
+							reject(event);
 							scope.manager.itemError(url);
 							scope.manager.itemEnd(url);
 
@@ -35377,7 +35374,6 @@ var scope=this;
 			}
 
 			scope.manager.itemStart(url);
-			console.log(request);
 			return request;
 
 		},
@@ -35529,13 +35525,11 @@ var scope=this;
 					onError: onError
 
 				});
-				console.log(this.response);
 				var request = new XMLHttpRequest();
 
 				request.open('GET', url, true);
 
 				request.addEventListener('load', function (event) {
-					console.log(event);
 					var response = this.response;
 
 					Cache.add(url, response);
@@ -35554,7 +35548,6 @@ var scope=this;
 						for (var i = 0, il = callbacks.length; i < il; i++) {
 
 							var callback = callbacks[i];
-							console.log(response)
 							if (callback.onLoad) callback.onLoad(response);
 
 						}
@@ -36045,7 +36038,6 @@ var scope=this;
 
 				}
 				image.src = url;
-				
 			})
 
 		},
@@ -36152,7 +36144,6 @@ var scope=this;
 	Object.assign(CubeTextureLoader.prototype, {
 
 		crossOrigin: 'anonymous',
-
 		load: function (urls, onLoad, onProgress, onError) {
 
 			var texture = new CubeTexture();
@@ -36162,12 +36153,25 @@ var scope=this;
 			loader.setPath(this.path);
 
 			var loaded = 0;
-			var image = undefined;
-			async function loadTexture(i) {
 
-				image = await loader.awaitLoad(urls[i]);
-				texture.images[i] = image;
-				loaded++;
+			function loadTexture(i) {
+
+				loader.load(urls[i], function (image) {
+
+					texture.images[i] = image;
+
+					loaded++;
+
+					if (loaded === 6) {
+
+						texture.needsUpdate = true;
+
+						if (onLoad) onLoad(texture);
+
+					}
+
+				}, undefined, onError);
+
 			}
 
 			for (var i = 0; i < urls.length; ++i) {
@@ -36176,6 +36180,33 @@ var scope=this;
 
 			}
 
+			return texture;
+
+		},
+		awaitLoad: async function (urls, onLoad, onProgress, onError) {
+
+			var texture = new CubeTexture();
+
+			var loader = new ImageLoader(this.manager);
+			loader.setCrossOrigin(this.crossOrigin);
+			loader.setPath(this.path);
+
+			var loaded = 0;
+			var image = undefined;
+
+			for (var i = 0; i < urls.length; ++i) {
+
+				image = await loader.awaitLoad(urls[i]);
+				texture.images[i] = image;
+				loaded++;
+
+			}
+
+			if (loaded === 6) {
+
+				texture.needsUpdate = true;
+
+			}
 			return texture;
 
 		},
@@ -36211,18 +36242,17 @@ var scope=this;
 
 		crossOrigin: 'anonymous',
 
-		awaitLoad:async function (url, onLoad, onProgress, onError) {
+		awaitLoad: async function (url, onLoad, onProgress, onError) {
 
-			
+
 			var texture = new Texture();
 
 			var loader = new ImageLoader(this.manager);
 			loader.setCrossOrigin(this.crossOrigin);
 			loader.setPath(this.path);
 
-		var image =await loader.awaitLoad(url);
-			texture.image=image;
-			console.log(image);
+			var image = await loader.awaitLoad(url);
+			texture.image = image;
 			// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
 			var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || url.search(/^data\:image\/jpeg/) === 0;
 
@@ -36231,31 +36261,30 @@ var scope=this;
 			return texture;
 
 		},
-		load: function ( url, onLoad, onProgress, onError ) {
+		load: function (url, onLoad, onProgress, onError) {
 
 			var texture = new Texture();
 
-			var loader = new ImageLoader( this.manager );
-			loader.setCrossOrigin( this.crossOrigin );
-			loader.setPath( this.path );
+			var loader = new ImageLoader(this.manager);
+			loader.setCrossOrigin(this.crossOrigin);
+			loader.setPath(this.path);
 
-			loader.load( url, function ( image ) {
-				console.log(image);
+			loader.load(url, function (image) {
 				texture.image = image;
 
 				// JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.
-				var isJPEG = url.search( /\.jpe?g($|\?)/i ) > 0 || url.search( /^data\:image\/jpeg/ ) === 0;
+				var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || url.search(/^data\:image\/jpeg/) === 0;
 
 				texture.format = isJPEG ? RGBFormat : RGBAFormat;
 				texture.needsUpdate = true;
 
-				if ( onLoad !== undefined ) {
+				if (onLoad !== undefined) {
 
-					onLoad( texture );
+					onLoad(texture);
 
 				}
 
-			}, onProgress, onError );
+			}, onProgress, onError);
 
 			return texture;
 
@@ -40820,35 +40849,36 @@ var scope=this;
 			var loader = new FileLoader(scope.manager);
 			loader.setPath(scope.path);
 			text = await loader.awaitLoad(url);
-			return JSON.parse(text);
+			var font=scope.parse(JSON.parse(text));
+			return font;
 		},
 
-		load: function ( url, onLoad, onProgress, onError ) {
+		load: function (url, onLoad, onProgress, onError) {
 
 			var scope = this;
 
-			var loader = new FileLoader( this.manager );
-			loader.setPath( this.path );
-			loader.load( url, function ( text ) {
+			var loader = new FileLoader(this.manager);
+			loader.setPath(this.path);
+			loader.load(url, function (text) {
 
 				var json;
 
 				try {
 
-					json = JSON.parse( text );
+					json = JSON.parse(text);
 
-				} catch ( e ) {
+				} catch (e) {
 
-					console.warn( 'THREE.FontLoader: typeface.js support is being deprecated. Use typeface.json instead.' );
-					json = JSON.parse( text.substring( 65, text.length - 2 ) );
+					console.warn('THREE.FontLoader: typeface.js support is being deprecated. Use typeface.json instead.');
+					json = JSON.parse(text.substring(65, text.length - 2));
 
 				}
 
-				var font = scope.parse( json );
+				var font = scope.parse(json);
 
-				if ( onLoad ) onLoad( font );
+				if (onLoad) onLoad(font);
 
-			}, onProgress, onError );
+			}, onProgress, onError);
 
 		},
 

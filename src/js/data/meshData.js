@@ -3,7 +3,7 @@ projectData.meshData = (function () {
     meshData.prototype = {
         createLoader:async function (scene, render) {
             var self = this;
-            await projectUtil.meshUtil.prototype.envMapLoadUtil(render).then(
+            await projectUtil.meshUtil.prototype.envMapLoadUtil(render,scene).then(
                 function(value){self._rgbmCubeRenderTarget =value;}
             );
 
@@ -56,7 +56,7 @@ projectData.meshData = (function () {
                 name: "",
                 color: new THREE.Color(0xFDD7B7),
                 fbxUrl: fbxPath + "WAT_yifu.FBX",
-                textureMapUrl: fbxPath + "WAT_tou_d.png",
+                textureMapUrl: fbxPath + "WAT_shen_d.png",
                 textureAoMapUrl: fbxPath + "WAT_di__AO.jpg",
                 textureNormalMapUrl: fbxPath + "WAT_shen_n.png",
                 texturealphaMapUrl: "",
@@ -115,7 +115,7 @@ projectData.meshData = (function () {
                 fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
-                rotation: new THREE.Euler(0, Math.PI / 2, 0),
+                rotation: new THREE.Euler(0,0 , 0),
                 position: new THREE.Vector3(5, 5, 5),
                 scale: new THREE.Vector3(40, 40, 40),
                 size: "",
@@ -137,7 +137,7 @@ projectData.meshData = (function () {
                 fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
-                rotation: new THREE.Euler(0, Math.PI / 2, 0),
+                rotation: new THREE.Euler(0,0,  0),
                 position: new THREE.Vector3(-5, 18, -5),
                 scale: new THREE.Vector3(30, 30, 30),
                 size: "",
@@ -159,7 +159,7 @@ projectData.meshData = (function () {
                 fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
-                rotation: new THREE.Euler(Math.PI / 2, 0, 0),
+                rotation: new THREE.Euler(0, 0, 0),
                 position: new THREE.Vector3(-5, 7, 2),
                 scale: new THREE.Vector3(40, 40, 40),
                 size: "",
@@ -181,7 +181,7 @@ projectData.meshData = (function () {
                 fbxLoader: params._fbxLoader,
                 arr: array[1],
                 text: "",
-                rotation: new THREE.Euler(0, Math.PI / 2, 0),
+                rotation: new THREE.Euler(0,0,  0),
                 position: new THREE.Vector3(5, 14, -2),
                 scale: new THREE.Vector3(30, 30, 30),
                 size: "",
