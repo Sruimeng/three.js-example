@@ -8,8 +8,6 @@ projectSevice.meshSevice = (function () {
             for (i = 0, fbxParamsLength = fbxParams.length; i < fbxParamsLength; i++) {
                 await projectUtil.meshUtil.prototype.create(fbxParams[i], projectParams.renderer);
             }
-            console.log(projectParams);
-            
         }
     }
     return meshSevice;
